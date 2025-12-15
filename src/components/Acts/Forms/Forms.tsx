@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-<<<<<<< HEAD
 import './Forms.css'
-=======
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
 // ============================================
 // ТИПЫ И ИНТЕРФЕЙСЫ

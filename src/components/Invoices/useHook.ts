@@ -12,25 +12,17 @@ export const useHook = () => {
   const toast                         = useToast();
   const { loading, setLoading}        = useLoading()
 
-<<<<<<< HEAD
   useEffect(()=>{
       console.log("invoices", invoices)
   },[invoices])
-=======
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
   const get_inv                       = useCallback(async () => {
     
     setLoading(true);
     
     try {
-<<<<<<< HEAD
       const res = await post("mp_invoices", { token } );
       console.log("invoices", res)
-=======
-      const res = await post("get_invoices", { token } );
-      console.log("get_invoices", res)
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
       if (res.success) {
         setData( res.data )
         toast.success("Данные счетов получены");
@@ -129,13 +121,8 @@ export const useHook = () => {
       console.log("upd_inv_address", res )
       if(res.success){
         const jarr = invoices.map( (inv) =>
-<<<<<<< HEAD
               inv.id === id 
                 ? { ...inv, address: address }
-=======
-              inv.Ссылка === id 
-                ? { ...inv, Адрес: address }
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                 : inv
         )
         setData( jarr );

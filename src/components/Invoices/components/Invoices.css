@@ -4,16 +4,6 @@
 
 .invoices-page {
     --ion-background-color: #f8fafc;
-<<<<<<< HEAD
-    height: 92vh;
-}
-
-.invoices-content {
-    height: 83vh;
-    overflow-y: scroll;
-}
-
-=======
 }
 
 .invoices-content {
@@ -611,4 +601,3 @@
         font-size: 12px;
     }
 }
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19

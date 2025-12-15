@@ -26,33 +26,20 @@ import {
 } from 'ionicons/icons';
 
 import { Invoice }          from '../types';
-<<<<<<< HEAD
 import ActShutdownForm      from '../../Acts/ActShutdown/ActShutdownForm';
 import ActPlomb             from '../../Acts/ActPlomb/ActplombForm';
 import ActHouseInspects     from '../../Acts/ActHouseInspect/ActHouseInspect';
 import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
-=======
-// import ActShutdownForm      from '../../Acts/ActShutdown/ActShutdownForm';
-// import ActPlomb             from '../../Acts/ActPlomb/ActplombForm';
-// import { useToast }         from '../../Toast/useToast';
-// import ActHouseInspects     from '../../Acts/ActHouseInspect/ActHouseInspect';
-// import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 import CompletedForm        from '../../Acts/ActCompleted/CompletedForm';
 
 import './InvoiceActs.css';
 import { useToast } from '../../Toast';
-<<<<<<< HEAD
 import ActPrescriptPrint from '../../Acts/ActPrescript/ActPrescriptPrint';
 import ShutdownOrderForm from '../../Acts/ActShutdown/ActShutdownForm';
 import ActPlombForm from '../../Acts/ActPlomb/ActplombForm';
 import ActBatteryReplacementForm from '../../Acts/ActBatteryReplacement/ActBatteryReplacement';
 
 type ActType = 'list' | 'work_completed' | 'shutdown_order' | 'sealing' | 'mkd_inspection' | 'private_inspection' | 'prescription' | 'act_battery';
-=======
-
-type ActType = 'list' | 'work_completed' | 'shutdown_order' | 'sealing' | 'mkd_inspection' | 'private_inspection' | 'prescription';
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
 interface InvoiceActsProps {
     invoice: Invoice;
@@ -84,15 +71,12 @@ const actButtons = [
         color: 'tertiary'
     },
     {
-<<<<<<< HEAD
         type: 'act_battery' as ActType,
         name: 'Акт замены аккумуляторной батареи счетчика',
         icon: homeOutline,
         color: 'tertiary'
     },
     {
-=======
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
         type: 'private_inspection' as ActType,
         name: 'Акт обследования частного дома',
         icon: homeOutline,
@@ -244,23 +228,6 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
         </div>
     );
 
-<<<<<<< HEAD
-=======
-    // Заглушки для форм актов
-    const WorkCompletedForm = () => (
-        <ActForm title="Акт выполненных работ" onSave={handleSaveAct} onCancel={handleCancelAct}>
-            <IonItem>
-                <IonLabel position="stacked">Описание выполненных работ</IonLabel>
-                <IonTextarea rows={4} placeholder="Подробное описание..." />
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Дата выполнения</IonLabel>
-                <IonDatetime />
-            </IonItem>
-        </ActForm>
-    );
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
-
     const MkdInspectionForm = () => (
         <ActForm title="Акт обследования МКД" onSave={handleSaveAct} onCancel={handleCancelAct}>
             <IonItem>
@@ -274,43 +241,6 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
         </ActForm>
     );
 
-<<<<<<< HEAD
-=======
-    const PrivateInspectionForm = () => (
-        <ActForm title="Акт обследования частного дома" onSave={handleSaveAct} onCancel={handleCancelAct}>
-            <IonItem>
-                <IonLabel position="stacked">Результаты обследования</IonLabel>
-                <IonTextarea rows={5} placeholder="Описание состояния дома..." />
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Дата обследования</IonLabel>
-                <IonDatetime />
-            </IonItem>
-        </ActForm>
-    );
-
-    const PrescriptionForm = () => (
-        <ActForm title="Предписание" onSave={handleSaveAct} onCancel={handleCancelAct}>
-            <IonItem>
-                <IonLabel position="stacked">Основание для выдачи</IonLabel>
-                <IonSelect>
-                    <IonSelectOption value="inspection">По результатам проверки</IonSelectOption>
-                    <IonSelectOption value="complaint">По жалобе</IonSelectOption>
-                    <IonSelectOption value="violation">Выявленное нарушение</IonSelectOption>
-                </IonSelect>
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Требования к устранению</IonLabel>
-                <IonTextarea rows={5} placeholder="Подробное описание требований..." />
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Срок исполнения</IonLabel>
-                <IonDatetime />
-            </IonItem>
-        </ActForm>
-    );
-
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
     // Рендер компонента в зависимости от текущего состояния
     const renderCurrentView = () => {
         switch (currentView) {
@@ -324,11 +254,7 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
                 
             case 'shutdown_order':
 
-<<<<<<< HEAD
                 return <ShutdownOrderForm 
-=======
-                return <CompletedForm 
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                     invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
                     onSave      = { handleSaveShutdownAct }
                     onCancel    = { handleCancelShutdownAct }
@@ -336,11 +262,7 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
             case 'sealing':
 
-<<<<<<< HEAD
                 return <ActPlombForm 
-=======
-                return <CompletedForm 
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                     invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
                     onSave      = { handleSaveShutdownAct }
                     onCancel    = { handleCancelShutdownAct }
@@ -348,7 +270,6 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
             case 'mkd_inspection':
 
-<<<<<<< HEAD
                 return <MkdInspectionForm />;
 
             case 'act_battery':
@@ -358,13 +279,6 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
             case 'private_inspection':
 
                 return <ActHouseInspects 
-=======
-                return <></> //<MkdInspectionForm />;
-
-            case 'private_inspection':
-
-                return <CompletedForm 
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                     invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
                     onSave      = { handleSaveShutdownAct }
                     onCancel    = { handleCancelShutdownAct }                
@@ -372,11 +286,7 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
             case 'prescription':
 
-<<<<<<< HEAD
                 return <ActPrescript />;
-=======
-                return <></>  //<ActPrescript />;
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
             default:
 

@@ -13,10 +13,6 @@ export const useNavigationStore = create<any>()(
         history:              [{ route: '/invoices', page: 0 }],
         item:                 undefined,
         add:                  false,
-<<<<<<< HEAD
-=======
-        workers:              [],
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
         setCurrentRoute:      (route) => {set((state) => ({
             currentRoute: route,
@@ -39,14 +35,8 @@ export const useNavigationStore = create<any>()(
 
         setItem:                ( item ) => set({ item }),
 
-<<<<<<< HEAD
         setAdd:                 ( add ) => set({ add })
 
-=======
-        setAdd:                 ( add ) => set({ add }),
-
-        setWorkers:             ( workers ) => set({ workers })
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
     }),
     { name: 'navigation-store' }
   )
@@ -75,16 +65,3 @@ export const useAdd     = ( ) => {
 
     return { add, setAdd }
 }
-
-
-<<<<<<< HEAD
-=======
-export const useWorkers    = ( ) => {
-    const workers                  = useNavigationStore( (state) => state.workers )
-    const setWorkers               = useNavigationStore( (state) => state.setWorkers )
-
-    return { workers, setWorkers }
-}
-
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
-

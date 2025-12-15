@@ -80,13 +80,13 @@ export const InvoicePrintForm: React.FC<InvoicePrintFormProps> = ({
                             <IonItem>
                                 <IonLabel>
                                     <h3>Адрес</h3>
-                                    <p>{invoice.address}</p>
+                                    <p>{invoice.address.address}</p>
                                 </IonLabel>
                             </IonItem>
                             <IonItem>
                                 <IonLabel>
                                     <h3>Телефон</h3>
-                                    <p>{formatPhone(invoice.phone)}</p>
+                                    <p>{formatPhone(invoice.phone || '')}</p>
                                 </IonLabel>
                             </IonItem>
                             <IonItem>

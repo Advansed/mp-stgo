@@ -37,11 +37,7 @@ export function AddressForm({
     disabled = false 
 }: LicsProps) {
     const [address, setAddress] = useState<string>(initialAddress);
-<<<<<<< HEAD
     const [standardizedAddress, setStandardizedAddress] = useState<string>('');
-=======
-    const [standardizedAddress, setStandardizedAddress] = useState<any>({ address: "", lat: 0, lng: 0});
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
     const [saving, setSaving] = useState<boolean>(false);
 
     const toast = useToast();
@@ -51,11 +47,7 @@ export function AddressForm({
         if (!onAddressSaved) return;
         
         const addressToSave = standardizedAddress;
-<<<<<<< HEAD
         if (!addressToSave.trim()) {
-=======
-        if (!addressToSave.address.trim()) {
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
             toast.warning('Введите адрес для сохранения');
             return;
         }
@@ -90,24 +82,12 @@ export function AddressForm({
                         value  = { {value: address} as any } 
                         onChange={(e)=>{
                             console.log(e?.value)
-<<<<<<< HEAD
                             setStandardizedAddress(e?.value as string)
-=======
-                            setStandardizedAddress({
-                                address: e?.value as string,
-                                lat:    e?.data.geo_lat,
-                                lng:    e?.data.geo_lon,
-                            })
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                         }} 
                     />
 
                     <div className='mt-1 cl-prim'>
-<<<<<<< HEAD
                         { standardizedAddress }
-=======
-                        { standardizedAddress.address }
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                     </div>
 
                     {/* Кнопки управления */}
@@ -118,11 +98,7 @@ export function AddressForm({
                                 expand  = "block"
                                 fill    = "outline"
                                 onClick = {handleSave}
-<<<<<<< HEAD
                                 disabled={saving || !standardizedAddress.trim()}
-=======
-                                disabled={saving || !standardizedAddress.address.trim()}
->>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                             >
                                 {saving ? (
                                     <>
