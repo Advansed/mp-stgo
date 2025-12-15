@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   IonCard,
+<<<<<<< HEAD
   IonIcon,
 } from '@ionic/react';
 import {
@@ -11,6 +12,40 @@ import {
 import './InvoiceItem.css';
 import { Invoice } from '../../types';
 
+=======
+  IonChip,
+  IonIcon,
+  IonButton
+} from '@ionic/react';
+import {
+  callOutline,
+  locationOutline,
+  calendarOutline,
+  personOutline,
+  documentTextOutline
+} from 'ionicons/icons';
+import styles from './InvoiceItem.module.css';
+
+interface Invoice {
+  Ссылка: string;
+  Номер: string;
+  Дата: string;
+  ЛицевойСчет: string;
+  ТекстЗаявки: string | null;
+  Телефон: string | null;
+  ВремяУдобноеДляЗаказчика: string;
+  ВремяФактическогоВыполнения: string;
+  ФлагВыполнения: number;
+  КомментарийПоВыполнению: string | null;
+  Просрочена: number;
+  ХарактерЗаявки: string | null;
+  Заявитель: string | null;
+  Адрес: string;
+  Дом: string;
+  Квартира: string | null;
+  Участок: string;
+}
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
 interface InvoiceStatus {
   color: 'primary' | 'success' | 'warning' | 'danger' | 'medium';
@@ -18,12 +53,21 @@ interface InvoiceStatus {
 }
 
 interface InvoiceItemProps {
+<<<<<<< HEAD
   invoice:                      Invoice;
   status:                       InvoiceStatus;
   onSelect:                     ( invoice: any ) => void;
   onCall:                       ( phone: any, event: any ) => void;
   formatDate:                   ( dateString: string ) => string;
   formatPhone?:                 ( phone: string ) => string;
+=======
+  invoice: Invoice;
+  status: InvoiceStatus;
+  onSelect: (invoice: any) => void;
+  onCall: (phone: any, event: any) => void;
+  formatDate: (dateString: string) => string;
+  formatPhone?: (phone: string) => string;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 export const InvoiceItem: React.FC<InvoiceItemProps> = ({
@@ -39,6 +83,7 @@ export const InvoiceItem: React.FC<InvoiceItemProps> = ({
 
   const handleCallClick = (event: React.MouseEvent) => {
     event.stopPropagation();
+<<<<<<< HEAD
     onCall(invoice.phone, event);
   };
 
@@ -62,15 +107,35 @@ export const InvoiceItem: React.FC<InvoiceItemProps> = ({
       return `${baseClass} status-rejected`;
     
     return baseClass;
+=======
+    onCall(invoice.Телефон, event);
+  };
+
+  const getStatusText = () => {
+    if (invoice.ФлагВыполнения === 1) return 'Выполнена';
+    if (invoice.Просрочена === 1) return 'Просрочена';
+    return 'В работе';
+  };
+
+  const getFullAddress = () => {
+
+    let address = (typeof invoice.Адрес) === 'string' ? invoice.Адрес : (invoice.Адрес as any).address;
+    return address;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   };
 
   return (
     <IonCard 
+<<<<<<< HEAD
       className="invoice-card"
+=======
+      className={styles.invoiceCard}
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
       data-status={status.color}
       onClick={handleCardClick}
       button
     >
+<<<<<<< HEAD
       <div className="card-content-wrapper">
         {/* Заголовок - номер и статус в одной строке */}
         <div className="card-header">
@@ -132,9 +197,138 @@ export const InvoiceItem: React.FC<InvoiceItemProps> = ({
             </div>
           </div>
         )}
+=======
+      <div className={styles.cardContentWrapper}>
+        {/* Заголовок */}
+        <div className={styles.cardHeader}>
+          <div className={styles.headerLeft}>
+            <h3 className={styles.invoiceNumber}>
+              #{invoice.Номер.trim()}
+            </h3>
+            <p className={styles.invoiceDate}>
+              {formatDate(invoice.Дата)}
+            </p>
+          </div>
+          <IonChip 
+            color={status.color} 
+            className={styles.statusBadge}
+          >
+            {getStatusText()}
+          </IonChip>
+        </div>
+
+        {/* Основной контент */}
+        <div className={styles.cardContent}>
+          {/* Адрес */}
+          <div className={styles.infoSection}>
+            <div className={styles.infoLabel}>
+              <IonIcon icon={locationOutline} className={styles.labelIcon} />
+              Адрес
+            </div>
+            <p className={`${styles.infoValue} ${styles.addressValue}`}>
+              {getFullAddress()}
+            </p>
+          </div>
+
+          {/* Даты */}
+          <div className={styles.datesRow}>
+            <div className={styles.infoSection}>
+              <div className={styles.infoLabel}>
+                <IonIcon icon={calendarOutline} className={styles.labelIcon} />
+                Удобное время
+              </div>
+              <p className={styles.infoValue}>
+                {formatDate(invoice.ВремяУдобноеДляЗаказчика)}
+              </p>
+            </div>
+
+            <div className={styles.infoSection}>
+              <div className={styles.infoLabel}>
+                <IonIcon icon={calendarOutline} className={styles.labelIcon} />
+                Факт. выполнение
+              </div>
+              <p className={styles.infoValue}>
+                {formatDate(invoice.ВремяФактическогоВыполнения)}
+              </p>
+            </div>
+          </div>
+
+          {/* Дополнительная информация */}
+          {(invoice.Заявитель || invoice.ХарактерЗаявки) && (
+            <div className={styles.additionalInfo}>
+              {invoice.Заявитель && (
+                <div className={styles.infoSection}>
+                  <div className={styles.infoLabel}>
+                    <IonIcon icon={personOutline} className={styles.labelIcon} />
+                    Заявитель
+                  </div>
+                  <p className={styles.infoValue}>
+                    {invoice.Заявитель}
+                  </p>
+                </div>
+              )}
+
+              {invoice.ХарактерЗаявки && (
+                <div className={styles.infoSection}>
+                  <div className={styles.infoLabel}>
+                    <IonIcon icon={documentTextOutline} className={styles.labelIcon} />
+                    Характер заявки
+                  </div>
+                  <p className={styles.infoValue}>
+                    {invoice.ХарактерЗаявки}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Футер */}
+        <div className={styles.cardFooter}>
+          <div className={styles.accountInfo}>
+            <span className={styles.accountItem}>
+              ЛС: {invoice.ЛицевойСчет}
+            </span>
+            <div className={styles.plotInfo}>
+              <span className={styles.accountItem}>
+                Участок: 
+              </span>
+              <span className={styles.plotBadge}>
+                {invoice.Участок}
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.actionButtons}>
+            {invoice.Телефон && (
+              <IonButton
+                fill="solid"
+                size="small"
+                className={`${styles.actionButton} ${styles.callButton}`}
+                onClick={handleCallClick}
+              >
+                <IonIcon icon={callOutline} slot="start" />
+                Позвонить
+              </IonButton>
+            )}
+            
+            <IonButton
+              fill="outline"
+              size="small"
+              className={styles.actionButton}
+            >
+              Подробнее
+            </IonButton>
+          </div>
+        </div>
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
       </div>
     </IonCard>
   );
 };
 
+<<<<<<< HEAD
 export default React.memo(InvoiceItem);
+=======
+export default React.memo(InvoiceItem);
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19

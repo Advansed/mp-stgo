@@ -75,6 +75,7 @@ export interface Lics {
 }
 
 
+<<<<<<< HEAD
 export interface Worker {
   id:             string;
   name:           string;
@@ -105,6 +106,22 @@ export interface Invoice {
   status:         string;
   plot:           string;
   worker:         Worker;
+=======
+export interface Invoice {
+    id: string;
+    number: string;
+    date: string;
+    applicant: string;
+    phone: string;
+    address: string;
+    lic: Lics;
+    lineno: number;
+    service: string;
+    term: number;
+    term_begin: string;
+    term_end: string;
+    done: boolean;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 export interface InvoiceStatus {

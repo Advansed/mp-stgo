@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* InvoiceView.module.css - Темный стиль в соответствии с концепцией variables.css */
 .invoiceCard {
   background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
@@ -85,6 +86,89 @@
   margin: 4px 0 0 0;
   font-size: var(--corp-font-size-sm);
   color: rgba(255, 255, 255, 0.8);
+=======
+/* InvoiceView.module.css */
+.invoiceModal {
+  --width: 100%;
+  --max-width: 500px;
+  --height: 100%;
+  --border-radius: 0;
+  --box-shadow: none;
+}
+
+.modalHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modalToolbar {
+  --background: transparent;
+  --border-color: transparent;
+  --color: white;
+}
+
+.modalTitle {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.closeButton,
+.printButton {
+  --color: white;
+  --background: rgba(255, 255, 255, 0.15);
+  --background-hover: rgba(255, 255, 255, 0.25);
+  --background-activated: rgba(255, 255, 255, 0.3);
+  --border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.modalContent {
+  --background: #f7fafc;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+.invoiceContainer {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f7fafc;
+  min-height: 100%;
+}
+
+/* Заголовок карточки */
+.invoiceHeader {
+  padding: 20px 20px 16px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.invoiceTitle {
+  flex: 1;
+}
+
+.invoiceTitle h2 {
+  margin: 0 0 4px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1.2;
+}
+
+.invoiceSubtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #718096;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   font-weight: 500;
 }
 
@@ -92,22 +176,32 @@
 .statusChip {
   border-radius: 20px;
   height: 32px;
+<<<<<<< HEAD
   font-size: var(--corp-font-size-xs);
+=======
+  font-size: 0.75rem;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
   gap: 6px;
+<<<<<<< HEAD
   padding: 0 16px;
   background: rgba(255, 255, 255, 0.2);
   color: var(--corp-white);
   border: 1px solid rgba(255, 255, 255, 0.3);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+=======
+  padding: 0 12px;
+  margin: 0;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   flex-shrink: 0;
 }
 
 .statusChip ion-icon {
+<<<<<<< HEAD
   font-size: 16px;
 }
 
@@ -177,12 +271,36 @@
 
 .invoiceItem:hover {
   --background: rgba(255, 255, 255, 0.05);
+=======
+  font-size: 14px;
+}
+
+/* Список информации */
+.invoiceList {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.invoiceItem {
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --inner-padding-end: 0px;
+  --border-style: none;
+  --background: white;
+  --min-height: 60px;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e2e8f0;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 .invoiceItem:last-child {
   border-bottom: none;
 }
 
+<<<<<<< HEAD
 /* Иконки */
 .invoiceItem ion-icon[slot="start"] {
   color: var(--corp-white);
@@ -193,27 +311,54 @@
   padding: 6px;
   border-radius: var(--corp-radius-sm);
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+=======
+.invoiceItem:hover {
+  --background: #f8fafc;
+}
+
+/* Иконки */
+.invoiceItem ion-icon[slot="start"] {
+  color: #4299e1;
+  font-size: 18px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  background: #ebf8ff;
+  padding: 6px;
+  border-radius: 8px;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 /* Контент элементов */
 .invoiceItem ion-label {
   margin: 0;
+<<<<<<< HEAD
   min-width: 0;
   flex: 1;
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 .itemHeader {
   margin: 0 0 4px 0;
+<<<<<<< HEAD
   font-size: var(--corp-font-size-xs);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+=======
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 .itemContent {
   margin: 0;
+<<<<<<< HEAD
   font-size: var(--corp-font-size-base);
   font-weight: 500;
   color: var(--corp-white);
@@ -239,11 +384,56 @@
   height: 36px;
   min-width: 36px;
   flex-shrink: 0;
+=======
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2d3748;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.itemSubtext {
+  margin: 6px 0 0 0;
+  font-size: 0.8rem;
+  color: #718096;
+  font-weight: 400;
+}
+
+/* Кнопки в элементах */
+.actionButton {
+  --border-radius: 8px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  height: 36px;
+  width: 36px;
+  margin: 0;
+  --background: #ebf8ff;
+  --color: #4299e1;
+  --background-hover: #bee3f8;
+  --background-activated: #90cdf4;
+}
+
+.callButton {
+  --border-radius: 8px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  height: 36px;
+  margin: 0;
+  --background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  --background-hover: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+  --background-activated: linear-gradient(135deg, #2f855a 0%, #276749 100%);
+  font-size: 0.8rem;
+  font-weight: 600;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 /* Секции */
 .infoSection {
+<<<<<<< HEAD
   margin-bottom: var(--corp-space-2);
+=======
+  margin-bottom: 8px;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 .infoSection:last-child {
@@ -252,6 +442,7 @@
 
 /* Бейджи */
 .infoBadge {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.2);
   color: var(--corp-white);
   padding: 4px 8px;
@@ -268,10 +459,45 @@
 .longText {
   white-space: pre-line;
   line-height: 1.5;
+=======
+  background: #edf2f7;
+  color: #4a5568;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* Футер с кнопкой актов */
+.footerActions {
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 8px;
+}
+
+.actsButton {
+  --border-radius: 10px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  height: 48px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  --background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+  --background-hover: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+  --background-activated: linear-gradient(135deg, #2c5aa0 0%, #2a4365 100%);
+  margin: 0;
+}
+
+.actsButton ion-icon {
+  font-size: 18px;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }
 
 /* Адаптивность */
 @media (max-width: 480px) {
+<<<<<<< HEAD
   .invoiceCard {
     margin: var(--corp-space-2) var(--corp-space-2) !important;
     border-radius: var(--corp-radius-md) !important;
@@ -334,14 +560,68 @@
   .invoiceItem {
     --padding-start: var(--corp-space-2);
     --padding-end: var(--corp-space-2);
+=======
+  .invoiceHeader {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .invoiceTitle h2 {
+    font-size: 1.3rem;
+  }
+  
+  .invoiceItem {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  .invoiceItem ion-icon[slot="start"] {
+    margin-right: 10px;
+    font-size: 16px;
+    padding: 5px;
+  }
+  
+  .footerActions {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .invoiceHeader {
+    padding: 14px;
+  }
+  
+  .invoiceTitle h2 {
+    font-size: 1.2rem;
+  }
+  
+  .invoiceItem {
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+  }
+  
+  .itemContent {
+    font-size: 0.9rem;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   }
 }
 
 /* Анимации */
+<<<<<<< HEAD
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(10px);
+=======
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   }
   to {
     opacity: 1;
@@ -349,6 +629,7 @@
   }
 }
 
+<<<<<<< HEAD
 /* Цветовые варианты для статусов */
 .statusSuccess {
   background: rgba(40, 167, 69, 0.8) !important;
@@ -404,4 +685,34 @@
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+=======
+.invoiceContainer {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Цветовые варианты для статусов */
+.statusSuccess {
+  background: #48bb78;
+  color: white;
+}
+
+.statusWarning {
+  background: #ed8936;
+  color: white;
+}
+
+.statusDanger {
+  background: #f56565;
+  color: white;
+}
+
+.statusPrimary {
+  background: #4299e1;
+  color: white;
+}
+
+.statusMedium {
+  background: #a0aec0;
+  color: white;
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 }

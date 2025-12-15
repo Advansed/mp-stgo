@@ -124,14 +124,23 @@ const Menu: React.FC = () => {
           <IonListHeader className="corp-menu-list-header">Основное</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
-              <IonMenuToggle key={index} autoHide={false}>
+              <IonMenuToggle key  = { index } autoHide={false}>
                 <IonItem 
+<<<<<<< HEAD
                   className={`corp-menu-item ${location.pathname === appPage.url ? 'selected' : ''}`}
                   routerLink={appPage.url} 
                   routerDirection="none" 
                   lines="none" 
                   detail={false}
                   onClick={() => { setRoute({ route: appPage.url, page: 0 }) }}
+=======
+                  className       = { location.pathname === appPage.url ? 'selected' : '' } 
+                  routerLink      = { appPage.url } 
+                  routerDirection = "none" 
+                  lines           = "none" 
+                  detail          = { false }
+                  onClick         = { () => { setRoute( { route: appPage.url, page: 0 } )} }
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                   <IonLabel>{appPage.title}</IonLabel>

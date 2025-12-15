@@ -2,7 +2,11 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+<<<<<<< HEAD
 import { ActCompletedData, ActPlombData, ActShutdownData, BatteryReplacementData, HouseInspectData, PrescriptData } from './types'; // путь поправьте
+=======
+import { ActCompletedData, ActPlombData, HouseInspectData } from './types'; // путь поправьте
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
 // ============================================
 // ТИПЫ STORE
@@ -15,12 +19,15 @@ interface ActsState {
 
     actPlomb:                     ActPlombData; // НОВЫЙ
 
+<<<<<<< HEAD
     actShutdown:                  ActShutdownData; // НОВЫЙ
 
     prescript:                    PrescriptData; // НОВЫЙ
 
     batteryReplacement:           BatteryReplacementData;
 
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
     loading:                      boolean;
   
     saving:                       boolean;
@@ -42,7 +49,10 @@ interface ActsActions {
 type ActsStore = ActsState & ActsActions;
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 export const initActCompleteData: ActCompletedData = {
   id:                             '',
   invoice_id:                     '',
@@ -65,7 +75,11 @@ export const initActCompleteData: ActCompletedData = {
   notes:                          ''
 };
 
+<<<<<<< HEAD
 export const initActHouseInspect: HouseInspectData = {
+=======
+export const initialActHouseInspect: HouseInspectData = {
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   id:                              undefined,
   invoice_id:                      undefined,
   act_number:                      '',
@@ -92,7 +106,11 @@ export const initActHouseInspect: HouseInspectData = {
   meters:                          []
 };
 
+<<<<<<< HEAD
 export const initActPlomb: ActPlombData = {
+=======
+export const initialActPlomb: ActPlombData = {
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   id:                       undefined,
   invoice_id:               undefined,
   act_number:               '',
@@ -118,6 +136,7 @@ export const initActPlomb: ActPlombData = {
   updated_at:               ''
 };
 
+<<<<<<< HEAD
 export const initActShutdown: ActShutdownData = {
   id:                           '',
   act_date:                     new Date().toISOString().split('T')[0],
@@ -208,12 +227,15 @@ export const initBatteryReplacementAct: BatteryReplacementData = {
 };
 
 
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 export const useActsStore = create<ActsStore>()(
 
   devtools((set) => ({
     
     actComplete:            { ...initActCompleteData },
     
+<<<<<<< HEAD
     actHouseInspect:        initActHouseInspect,
 
     actPlomb:               initActPlomb,
@@ -223,6 +245,11 @@ export const useActsStore = create<ActsStore>()(
     prescript:              initPrescript,
 
     batteryReplacement:     initBatteryReplacementAct,
+=======
+    actHouseInspect:        initialActHouseInspect,
+
+    actPlomb:               initialActPlomb,
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
     errors:                 {},
     loading:                false,
@@ -233,9 +260,12 @@ export const useActsStore = create<ActsStore>()(
         case 0:     set({ actComplete: data });break;
         case 1:     set({ actHouseInspect: data });break;
         case 2:     set({ actPlomb: data });break;
+<<<<<<< HEAD
         case 3:     set({ actShutdown: data });break;
         case 4:     set({ prescript: data });break;
         case 5:     set({ batteryReplacement: data });break;
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
         default: break;
       }
       
@@ -257,6 +287,7 @@ export const useActsStore = create<ActsStore>()(
         case 2: set((state) => ({
                     actPlomb: { ...state.actPlomb, [field]: value }
                 })); break;
+<<<<<<< HEAD
                 
         case 3: set((state) => ({
                     actShutdown: { ...state.actShutdown, [field]: value }
@@ -269,6 +300,8 @@ export const useActsStore = create<ActsStore>()(
         case 5: set((state) => ({
                     batteryReplacement: { ...state.batteryReplacement, [field]: value }
                 })); break;
+=======
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
         
         default: break;
 
@@ -280,6 +313,7 @@ export const useActsStore = create<ActsStore>()(
         
         case 0: set({ actComplete: initActCompleteData })
         
+<<<<<<< HEAD
         case 1: set({ actHouseInspect: initActHouseInspect })
 
         case 2: set({ actPlomb: initActPlomb })
@@ -289,6 +323,11 @@ export const useActsStore = create<ActsStore>()(
         case 4: set({ prescript: initPrescript })
 
         case 5: set({ batteryReplacement: initBatteryReplacementAct })
+=======
+        case 1: set({ actHouseInspect: initialActHouseInspect })
+
+        case 2: set({ actPlomb: initialActPlomb })
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
 
       }
       
@@ -305,7 +344,11 @@ export const actsActions = {
   setActCompleteField:      < K extends keyof any >( field: K, value: any ) => useActsStore.getState().setField(0, field, value),
   resetActComplete:         ( ) => useActsStore.getState().reset( 0 ),
 
+<<<<<<< HEAD
   setData:                  (type: number, data: any) => { useActsStore.getState().setData(type, data) },
+=======
+  setData:                  (type: number, data: HouseInspectData) => { useActsStore.getState().setData(type, data) },
+>>>>>>> 690d9ee61ca52a160964de5de5f99ca3ff946f19
   setField:                 <K extends keyof any>(type: number, field: K, value: any) => useActsStore.getState().setField(type, field, value),
   reset:                    (type: number) => useActsStore.getState().reset( type ),
 
