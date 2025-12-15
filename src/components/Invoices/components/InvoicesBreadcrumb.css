@@ -1,0 +1,210 @@
+/* InvoicesBreadcrumb.css - Корпоративный стиль для мобильных (360-420px) */
+
+.invoices-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-2);
+  padding: var(--corp-space-2) var(--corp-space-3);
+  background: var(--corp-white);
+  border-bottom: 1px solid var(--corp-gray-200);
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+/* Кнопка назад */
+.breadcrumb-back-btn {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --background: var(--corp-primary);
+  --background-hover: var(--corp-primary-dark);
+  --background-activated: var(--corp-primary-dark);
+  --border-radius: var(--corp-radius-sm);
+  --color: var(--corp-white);
+  min-width: 32px;
+  min-height: 32px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.breadcrumb-back-btn ion-icon {
+  font-size: 16px;
+}
+
+/* Навигация хлебных крошек */
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-1);
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.breadcrumb-nav::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Элемент хлебной крошки */
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: var(--corp-radius-sm);
+  background: var(--corp-gray-50);
+  border: 1px solid var(--corp-gray-200);
+  transition: all var(--corp-transition-fast);
+  flex-shrink: 0;
+  min-height: 32px;
+  box-sizing: border-box;
+}
+
+.breadcrumb-item.accessible {
+  cursor: pointer;
+}
+
+.breadcrumb-item.accessible:active {
+  background: var(--corp-gray-100);
+  transform: scale(0.95);
+}
+
+.breadcrumb-item.active {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+  border-color: var(--corp-primary);
+  color: var(--corp-white);
+}
+
+.breadcrumb-item.disabled {
+  background: var(--corp-gray-100);
+  border-color: var(--corp-gray-300);
+  color: var(--corp-gray-400);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Номер шага */
+.breadcrumb-number {
+  font-size: var(--corp-font-size-xs);
+  font-weight: 600;
+  min-width: 16px;
+  text-align: center;
+}
+
+.breadcrumb-item.active .breadcrumb-number {
+  color: var(--corp-white);
+  font-weight: 700;
+}
+
+.breadcrumb-item:not(.active) .breadcrumb-number {
+  color: var(--corp-gray-600);
+}
+
+.breadcrumb-item.disabled .breadcrumb-number {
+  color: var(--corp-gray-400);
+}
+
+/* Метка шага */
+.breadcrumb-label {
+  font-size: var(--corp-font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60px;
+}
+
+.breadcrumb-item.active .breadcrumb-label {
+  color: var(--corp-white);
+  font-weight: 600;
+}
+
+.breadcrumb-item:not(.active) .breadcrumb-label {
+  color: var(--corp-gray-600);
+}
+
+.breadcrumb-item.disabled .breadcrumb-label {
+  color: var(--corp-gray-400);
+}
+
+/* Разделитель */
+.breadcrumb-separator {
+  color: var(--corp-gray-300);
+  font-size: var(--corp-font-size-sm);
+  font-weight: 300;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 380px) {
+  .invoices-breadcrumb {
+    padding: var(--corp-space-2);
+    gap: var(--corp-space-1);
+  }
+  
+  .breadcrumb-item {
+    padding: 4px 6px;
+    gap: 3px;
+  }
+  
+  .breadcrumb-label {
+    max-width: 50px;
+    font-size: 11px;
+  }
+  
+  .breadcrumb-number {
+    font-size: 10px;
+    min-width: 14px;
+  }
+  
+  .breadcrumb-separator {
+    font-size: var(--corp-font-size-xs);
+    margin: 0 1px;
+  }
+}
+
+/* Анимации */
+.breadcrumb-item.accessible {
+  transition: all var(--corp-transition-fast);
+}
+
+.breadcrumb-item.accessible:active {
+  transition: all 0.1s ease;
+}
+
+/* Состояния фокуса для доступности */
+.breadcrumb-item.accessible:focus-visible {
+  outline: 2px solid var(--corp-primary);
+  outline-offset: 2px;
+}
+
+/* Темная тема (на всякий случай) */
+@media (prefers-color-scheme: dark) {
+  .invoices-breadcrumb {
+    background: var(--corp-gray-700);
+    border-bottom-color: var(--corp-gray-600);
+  }
+  
+  .breadcrumb-item {
+    background: var(--corp-gray-600);
+    border-color: var(--corp-gray-500);
+    color: var(--corp-gray-100);
+  }
+  
+  .breadcrumb-item.accessible:active {
+    background: var(--corp-gray-500);
+  }
+  
+  .breadcrumb-item.disabled {
+    background: var(--corp-gray-700);
+    border-color: var(--corp-gray-600);
+    color: var(--corp-gray-400);
+  }
+  
+  .breadcrumb-item:not(.active) .breadcrumb-number,
+  .breadcrumb-item:not(.active) .breadcrumb-label {
+    color: var(--corp-gray-200);
+  }
+}

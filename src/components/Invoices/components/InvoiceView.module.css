@@ -1,0 +1,407 @@
+/* InvoiceView.module.css - Темный стиль в соответствии с концепцией variables.css */
+.invoiceCard {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+  border-radius: var(--corp-radius-lg) !important;
+  border: none !important;
+  box-shadow: var(--corp-shadow-md) !important;
+  margin: var(--corp-space-2) var(--corp-space-3) !important;
+  transition: all var(--corp-transition-normal) !important;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.invoiceCard:active {
+  transform: scale(0.98);
+  box-shadow: var(--corp-shadow-sm) !important;
+  background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%) !important;
+}
+
+/* Индикатор статуса слева */
+.invoiceCard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.invoiceCard[data-status="primary"]::before {
+  background: var(--corp-primary);
+}
+
+.invoiceCard[data-status="success"]::before {
+  background: #28a745;
+}
+
+.invoiceCard[data-status="warning"]::before {
+  background: var(--corp-secondary);
+}
+
+.invoiceCard[data-status="danger"]::before {
+  background: #dc3545;
+}
+
+.invoiceCard[data-status="medium"]::before {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Заголовок - фиксированный */
+.invoiceHeader {
+  padding: var(--corp-space-4);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--corp-space-3);
+  flex-shrink: 0;
+}
+
+.invoiceTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.invoiceTitle h2 {
+  margin: 0;
+  font-size: var(--corp-font-size-lg);
+  font-weight: 700;
+  color: var(--corp-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.invoiceSubtitle {
+  margin: 4px 0 0 0;
+  font-size: var(--corp-font-size-sm);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Статус */
+.statusChip {
+  border-radius: 20px;
+  height: 32px;
+  font-size: var(--corp-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--corp-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.statusChip ion-icon {
+  font-size: 16px;
+}
+
+/* Кнопки действий */
+.actionButtons {
+  display: flex;
+  gap: var(--corp-space-2);
+  flex-shrink: 0;
+}
+
+.primaryButton {
+  --border-radius: var(--corp-radius-md);
+  --padding-start: var(--corp-space-4);
+  --padding-end: var(--corp-space-4);
+  height: 36px;
+  font-size: var(--corp-font-size-sm);
+  font-weight: 600;
+}
+
+.secondaryButton {
+  --border-radius: var(--corp-radius-sm);
+  height: 32px;
+  width: 32px;
+}
+
+/* Список информации - скроллируемая область */
+.invoiceList {
+  margin: 0;
+  padding: var(--corp-space-2) 0;
+  background: transparent;
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(80vh - 120px); /* Высота карточки минус заголовок */
+}
+
+/* Кастомный скроллбар для мобильных */
+.invoiceList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.invoiceList::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--corp-radius-sm);
+}
+
+.invoiceList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--corp-radius-sm);
+}
+
+.invoiceList::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.invoiceItem {
+  --padding-start: var(--corp-space-4);
+  --padding-end: var(--corp-space-4);
+  --padding-top: var(--corp-space-3);
+  --padding-bottom: var(--corp-space-3);
+  --inner-padding-end: 0px;
+  --border-style: none;
+  --background: transparent;
+  --min-height: 44px;
+  transition: background-color var(--corp-transition-fast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.invoiceItem:hover {
+  --background: rgba(255, 255, 255, 0.05);
+}
+
+.invoiceItem:last-child {
+  border-bottom: none;
+}
+
+/* Иконки */
+.invoiceItem ion-icon[slot="start"] {
+  color: var(--corp-white);
+  font-size: 20px;
+  margin-right: var(--corp-space-3);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px;
+  border-radius: var(--corp-radius-sm);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+/* Контент элементов */
+.invoiceItem ion-label {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+}
+
+.itemHeader {
+  margin: 0 0 4px 0;
+  font-size: var(--corp-font-size-xs);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.itemContent {
+  margin: 0;
+  font-size: var(--corp-font-size-base);
+  font-weight: 500;
+  color: var(--corp-white);
+  line-height: 1.4;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.itemSubtext {
+  margin: 2px 0 0 0;
+  font-size: var(--corp-font-size-sm);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Кнопки в элементах */
+.invoiceItem ion-button[slot="end"] {
+  margin: 0;
+  --border-radius: var(--corp-radius-sm);
+  height: 36px;
+  min-width: 36px;
+  flex-shrink: 0;
+}
+
+/* Секции */
+.infoSection {
+  margin-bottom: var(--corp-space-2);
+}
+
+.infoSection:last-child {
+  margin-bottom: 0;
+}
+
+/* Бейджи */
+.infoBadge {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--corp-white);
+  padding: 4px 8px;
+  border-radius: var(--corp-radius-sm);
+  font-size: var(--corp-font-size-xs);
+  font-weight: 500;
+  margin-left: var(--corp-space-2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* Длинный текст с переносами */
+.longText {
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .invoiceCard {
+    margin: var(--corp-space-2) var(--corp-space-2) !important;
+    border-radius: var(--corp-radius-md) !important;
+    max-height: 85vh;
+  }
+  
+  .invoiceHeader {
+    padding: var(--corp-space-3);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--corp-space-2);
+  }
+  
+  .invoiceTitle {
+    width: 100%;
+  }
+  
+  .actionButtons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .primaryButton {
+    flex: 1;
+  }
+  
+  .invoiceList {
+    max-height: calc(85vh - 140px);
+  }
+  
+  .invoiceItem {
+    --padding-start: var(--corp-space-3);
+    --padding-end: var(--corp-space-3);
+  }
+  
+  .invoiceItem ion-icon[slot="start"] {
+    margin-right: var(--corp-space-2);
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 360px) {
+  .invoiceCard {
+    margin: var(--corp-space-2) var(--corp-space-1) !important;
+    max-height: 90vh;
+  }
+  
+  .invoiceHeader {
+    padding: var(--corp-space-2);
+  }
+  
+  .invoiceTitle h2 {
+    font-size: var(--corp-font-size-base);
+  }
+  
+  .invoiceList {
+    max-height: calc(90vh - 120px);
+  }
+  
+  .invoiceItem {
+    --padding-start: var(--corp-space-2);
+    --padding-end: var(--corp-space-2);
+  }
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Цветовые варианты для статусов */
+.statusSuccess {
+  background: rgba(40, 167, 69, 0.8) !important;
+  color: white !important;
+  border-color: rgba(40, 167, 69, 0.9) !important;
+}
+
+.statusWarning {
+  background: rgba(255, 186, 0, 0.8) !important;
+  color: #2d3748 !important;
+  border-color: rgba(255, 186, 0, 0.9) !important;
+}
+
+.statusDanger {
+  background: rgba(220, 53, 69, 0.8) !important;
+  color: white !important;
+  border-color: rgba(220, 53, 69, 0.9) !important;
+}
+
+.statusPrimary {
+  background: rgba(8, 108, 162, 0.8) !important;
+  color: white !important;
+  border-color: rgba(8, 108, 162, 0.9) !important;
+}
+
+.statusMedium {
+  background: rgba(255, 255, 255, 0.6) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Улучшения для touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .invoiceCard:active {
+    transform: scale(0.98);
+  }
+  
+  .invoiceList {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Классы для длинного контента */
+.scrollContainer {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollContent {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}

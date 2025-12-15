@@ -1,0 +1,14 @@
+/* ============================================
+   ОСНОВНЫЕ СТИЛИ СТРАНИЦЫ ЗАЯВОК
+   ============================================ */
+
+.invoices-page {
+    --ion-background-color: #f8fafc;
+    height: 92vh;
+}
+
+.invoices-content {
+    height: 83vh;
+    overflow-y: scroll;
+}
+

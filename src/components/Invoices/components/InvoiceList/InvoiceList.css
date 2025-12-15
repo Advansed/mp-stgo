@@ -1,0 +1,213 @@
+/* InvoiceList.css - Корпоративный стиль */
+
+/* ============================================ */
+/* INVOICE PAGE LAYOUT */
+/* ============================================ */
+
+.invoice-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--corp-gray-50);
+}
+
+.invoice-page-header {
+    padding: var(--corp-space-4) var(--corp-space-4) var(--corp-space-2);
+    flex-shrink: 0;
+    box-shadow: var(--corp-shadow-sm);
+}
+
+.invoice-page-title {
+    margin: 0;
+    font-size: var(--corp-font-size-2xl);
+    font-weight: 700;
+    color: var(--corp-gray-700);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.invoice-page-subtitle {
+    margin: var(--corp-space-1) 0 0 0;
+    font-size: var(--corp-font-size-sm);
+    color: var(--corp-gray-600);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.invoice-page-content {
+    height: 100%;
+    flex: 1;
+    overflow-y: auto;
+    padding-top: var(--corp-space-2);
+    background: var(--corp-gray-50);
+}
+
+/* ============================================ */
+/* INVOICES LIST */
+/* ============================================ */
+
+.invoices-list {
+    padding-bottom: var(--corp-space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--corp-space-2);
+}
+
+/* ============================================ */
+/* SCROLLABLE ITEMS CONTAINER */
+/* ============================================ */
+
+.invoices-scroll-container {
+    flex: 1;
+    height: 70vh;
+    overflow-y: auto;
+    padding: 0 var(--corp-space-3);
+}
+
+.invoices-scroll-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--corp-space-2);
+    min-height: min-content;
+}
+
+/* Custom scrollbar styling */
+.invoices-scroll-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.invoices-scroll-container::-webkit-scrollbar-track {
+    background: var(--corp-gray-100);
+    border-radius: 2px;
+}
+
+.invoices-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--corp-gray-400);
+    border-radius: 2px;
+}
+
+.invoices-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--corp-gray-500);
+}
+
+/* Firefox scrollbar */
+.invoices-scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--corp-gray-400) var(--corp-gray-100);
+}
+
+/* ============================================ */
+/* EMPTY STATES */
+/* ============================================ */
+
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    flex-direction: column;
+    gap: var(--corp-space-3);
+}
+
+.empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    flex-direction: column;
+    gap: var(--corp-space-4);
+}
+
+.loading-text {
+    color: var(--corp-gray-500);
+    font-size: var(--corp-font-size-base);
+    margin: 0;
+}
+
+.empty-text {
+    color: var(--corp-gray-500);
+    font-size: var(--corp-font-size-base);
+    margin: 0;
+}
+
+/* ============================================ */
+/* REFRESHER STYLES */
+/* ============================================ */
+
+.corp-refresher {
+    --color: var(--corp-white);
+}
+
+/* ============================================ */
+/* BUTTON STYLES */
+/* ============================================ */
+
+.corp-refresh-button {
+    background: var(--corp-gradient-primary);
+    color: var(--corp-white);
+    border: none;
+    border-radius: var(--corp-radius-md);
+    padding: var(--corp-space-3) var(--corp-space-4);
+    font-size: var(--corp-font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--corp-transition-normal);
+    min-height: 44px;
+}
+
+.corp-refresh-button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+/* ============================================ */
+/* RESPONSIVE DESIGN */
+/* ============================================ */
+
+@media (max-width: 380px) {
+    .invoice-page-header {
+        padding: var(--corp-space-3) var(--corp-space-3) var(--corp-space-2);
+    }
+    
+    .invoice-page-title {
+        font-size: var(--corp-font-size-xl);
+    }
+    
+    .invoice-page-subtitle {
+        font-size: var(--corp-font-size-xs);
+    }
+    
+    .invoices-scroll-container {
+        padding: 0 var(--corp-space-2);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .invoices-scroll-container::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .invoices-scroll-container {
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.invoice-page {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Smooth scrolling for better UX */
+.invoices-scroll-container {
+    scroll-behavior: smooth;
+}

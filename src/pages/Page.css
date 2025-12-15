@@ -1,0 +1,9 @@
+/* Page.css - Только Ionic специфичные стили */
+ion-content {
+  --background: var(--corp-gray-50);
+}
+
+/* Улучшаем скролл на мобильных */
+ion-content {
+  --offset-bottom: auto !important;
+}

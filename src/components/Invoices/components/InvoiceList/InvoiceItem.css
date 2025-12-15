@@ -1,0 +1,321 @@
+/* InvoiceItem.css - Темный стиль со светлым текстом */
+
+.invoice-card {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+  border-radius: var(--corp-radius-lg) !important;
+  border: none !important;
+  box-shadow: var(--corp-shadow-md) !important;
+  margin: var(--corp-space-2) var(--corp-space-3) !important;
+  transition: all var(--corp-transition-normal) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.invoice-card:active {
+  transform: scale(0.98);
+  box-shadow: var(--corp-shadow-sm) !important;
+  background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%) !important;
+}
+
+/* Индикатор статуса слева */
+.invoice-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.invoice-card[data-status="primary"]::before {
+  background: var(--corp-primary);
+}
+
+.invoice-card[data-status="success"]::before {
+  background: #28a745;
+}
+
+.invoice-card[data-status="warning"]::before {
+  background: var(--corp-secondary);
+}
+
+.invoice-card[data-status="danger"]::before {
+  background: #dc3545;
+}
+
+.invoice-card[data-status="medium"]::before {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.card-content-wrapper {
+  padding: var(--corp-space-3);
+}
+
+/* Заголовок - номер и статус в одной строке */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--corp-space-3);
+  gap: var(--corp-space-2);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.invoice-number {
+  color: var(--corp-white) !important;
+  font-size: var(--corp-font-size-lg) !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.invoice-date {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+/* Статус */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--corp-radius-sm);
+  font-size: var(--corp-font-size-xs);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--corp-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.status-new {
+  background-color: rgba(8, 108, 162, 0.8);
+  color: var(--corp-white);
+  border-color: rgba(8, 108, 162, 0.9);
+}
+
+.status-in-progress {
+  background-color: rgba(255, 186, 0, 0.8);
+  color: #2d3748;
+  border-color: rgba(255, 186, 0, 0.9);
+}
+
+.status-completed {
+  background-color: rgba(40, 167, 69, 0.8);
+  color: var(--corp-white);
+  border-color: rgba(40, 167, 69, 0.9);
+}
+
+.status-on-hold {
+  background-color: rgba(255, 193, 7, 0.8);
+  color: #2d3748;
+  border-color: rgba(255, 193, 7, 0.9);
+}
+
+.status-rejected {
+  background-color: rgba(220, 53, 69, 0.8);
+  color: var(--corp-white);
+  border-color: rgba(220, 53, 69, 0.9);
+}
+
+/* Основной контент - компактный */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--corp-space-2);
+}
+
+/* Строка с полями - имя и значение в одной строке */
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--corp-space-2);
+  margin-bottom: var(--corp-space-1);
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.info-value {
+  color: var(--corp-white) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+  line-height: 1.3;
+  flex: 1;
+  word-break: break-word;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Адрес выделяем */
+.address-value {
+  font-weight: 600;
+  color: var(--corp-white) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Иконки в labels */
+.label-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.label-icon {
+  color: var(--corp-white) !important;
+  font-size: 1.5em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+/* Футер - компактный */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--corp-space-2);
+  padding-top: var(--corp-space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.account-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: var(--corp-font-size-xs) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.plot-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.plot-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--corp-white) !important;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px !important;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 380px) {
+  .invoice-card {
+    margin: var(--corp-space-2) var(--corp-space-2) !important;
+  }
+  
+  .card-content-wrapper {
+    padding: var(--corp-space-2);
+  }
+  
+  .card-header {
+    flex-wrap: wrap;
+    gap: var(--corp-space-1);
+  }
+  
+  .header-left {
+    flex-wrap: wrap;
+  }
+  
+  .invoice-number {
+    font-size: var(--corp-font-size-base) !important;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: var(--corp-space-1);
+  }
+  
+  .info-label {
+    min-width: auto;
+    font-size: 11px !important;
+  }
+  
+  .info-value {
+    font-size: var(--corp-font-size-xs) !important;
+  }
+  
+  .account-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}
+
+/* Улучшения для touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .invoice-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.invoice-card {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Дополнительные утилиты для темной темы */
+.w-100 {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: var(--corp-space-2);
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.fl-space {
+  justify-content: space-between;
+}
