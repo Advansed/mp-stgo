@@ -181,9 +181,7 @@ export interface BatteryReplacementData {
   
   // Объект и адрес
   object_type:                    string;
-  object_street:                  string;
-  object_house:                   string;
-  object_apartment:               string;
+  object_address:                 string;
   
   // Данные замены оборудования
   removal_date:                   string;
@@ -205,4 +203,99 @@ export interface BatteryReplacementData {
   // Статус и документы
   status:                         string;
   document_scan_path:             string;
+}
+
+// Store/types.ts - добавляем тип
+export interface MeterReplacementData {
+  id?: string;
+  invoice_id?: string;
+  act_number?: string;
+  act_date?: string;
+  
+  // Исполнитель
+  technician_name?: string;
+  technician_position?: string;
+  
+  // Заказчик/владелец
+  owner_name?: string;
+  owner_phone?: string;
+  
+  // Объект
+  object_type?: string;
+  object_address?: any;
+  
+  // Старый счетчик
+  removal_date?: string;
+  removed_meter_model?: string;
+  removed_meter_number?: string;
+  removed_meter_reading?: string;
+  removed_seal_number?: string;
+  
+  // Новый счетчик
+  installation_date?: string;
+  installed_meter_model?: string;
+  installed_meter_number?: string;
+  installed_meter_reading?: string;
+  installed_seal_number?: string;
+  
+  // Подписи и статус
+  technician_signature?: string;
+  owner_signature?: string;
+  status?: string;
+  document_scan_path?: string;
+  
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface DisconnectionActData {
+  invoice_id?: string;
+  act_number?: string;
+  act_date?: string;
+  personal_account?: string;
+  work_order_number?: string;
+  work_order_date?: string;
+  debt_reason?: string;
+  apartment_number?: string;
+  house_number?: string;
+  building_number?: string;
+  street_name?: string;
+  city_district?: string;
+  customer_name?: string;
+  representative_position?: string;
+  representative_name?: string;
+  disconnection_time_hours?: string;
+  disconnection_time_minutes?: string;
+  equipment_description?: string;
+  equipment_count?: string;
+  disconnection_method?: string;
+  seal_number?: string;
+  reconnection_date?: string;
+  reconnection_representative?: string;
+  reconnection_basis?: string;
+  representative_signature?: string;
+  customer_signature?: string;
+  reconnection_representative_signature?: string;
+  status?: string;
+  document_scan_path?: string;
+}
+
+// Store/types.ts - добавить к существующим типам
+export interface MeterSealingData {
+  invoice_id?:            string;
+  act_number:             string;
+  act_date:               string;
+  technician_name:        string;
+  technician_position:    string;
+  owner_name:             string;
+  owner_phone:            string;
+  object_address:         any;
+  meter_model:            string;
+  meter_number:           string;
+  seal_number:            string;
+  note:                   string;
+  technician_signature:   string;
+  owner_signature:        string;
+  status:                 string;
+  document_scan_path:     string;
 }

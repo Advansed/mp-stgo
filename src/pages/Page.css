@@ -1,9 +1,168 @@
-/* Page.css - Только Ionic специфичные стили */
+/* Page.css - Оптимизированный для мобильного приложения */
+
+/* Основной фон для контента */
 ion-content {
   --background: var(--corp-gray-50);
+  display: block;
+  height: 100%;
 }
 
-/* Улучшаем скролл на мобильных */
-ion-content {
-  --offset-bottom: auto !important;
+/* ===== СТИЛИ ДЛЯ HEADER ===== */
+.page-header {
+  background: var(--corp-gradient-accent);
+  box-shadow: var(--corp-shadow-md);
+  padding-top: var(--safe-area-inset-top);
+}
+
+.page-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+  --min-height: 56px;
+  padding: 0 var(--corp-space-3);
+}
+
+/* Контейнер для всего содержимого header */
+.header-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 2em;
+  gap: var(--corp-space-2);
+}
+
+/* Левая часть - кнопка назад и компания */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  margin-right: var(--corp-space-2);
+}
+
+.action-icon {
+  font-size: var(--corp-font-size-sm);
+  color: var(--corp-white);
+  background: rgba(255, 255, 255, 0.15);
+  padding: var(--corp-space-2);
+  border-radius: var(--corp-radius-md);
+  transition: all var(--corp-transition-fast);
+  min-width: 1.2em;
+  min-height: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.action-icon:active {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(0.95);
+}
+
+.back-icon {
+  font-size: var(--corp-font-size-xl);
+}
+
+/* Блок с логотипом и названием компании */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-2);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.company-icon {
+  font-size: var(--corp-font-size-xl);
+  color: var(--corp-white);
+  background: rgba(255, 255, 255, 0.15);
+  padding: var(--corp-space-2);
+  border-radius: var(--corp-radius-md);
+  flex-shrink: 0;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.company-name {
+  color: var(--corp-white);
+  font-size: var(--corp-font-size-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+/* Компактная информация о пользователе */
+.user-info-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+ion-page {
+  display: grid;
+  grid-template-rows: auto 1fr; /* header + content */
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.avatar-icon {
+  font-size: var(--corp-font-size-lg);
+  color: var(--corp-white);
+}
+
+.user-details {
+  display: none;
+}
+
+/* Центральная часть - заголовок страницы */
+.header-center {
+  display: none;
+}
+
+/* Правая часть - кнопки действий */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-1);
+  flex-shrink: 0;
+  margin-left: var(--corp-space-2);
+}
+
+/* Утилиты для размеров иконок */
+.w-15, .h-15 {
+  width: 24px;
+  height: 24px;
+}
+
+/* Анимация появления header */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-header {
+  animation: fadeIn 0.3s ease-out;
 }

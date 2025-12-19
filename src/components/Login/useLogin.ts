@@ -34,7 +34,7 @@ export const useLogin = () => {
     
     try {
       const res = await post("login", data);
-      
+      console.log( res )
       if (res.success) {
         setUser(res.data);
         setToken(res.data.token);

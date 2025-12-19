@@ -1,14 +1,12 @@
 import React from 'react';
-import { IonButton, IonIcon } from '@ionic/react';
-import { chevronBackOutline } from 'ionicons/icons';
 import { InvoicePosition, InvoiceBreadcrumbItem } from '../types';
 import './InvoicesBreadcrumb.css'; // Импортируем новый CSS файл
 import { useItem } from '../../../Store/navigationStore';
 
 interface InvoicesBreadcrumbProps {
-    currentPosition:        number;
+    page:                   number;
     canGoBack:              boolean;
-    onNavigate:             ( position: any ) => void;
+    onPage:                 ( page: number ) => void;
     onGoBack:               ( ) => void;
 }
 
@@ -20,10 +18,8 @@ const BREADCRUMB_LABELS: Record<InvoicePosition, string> = {
 };
 
 export const InvoicesBreadcrumb: React.FC<InvoicesBreadcrumbProps> = ({
-    currentPosition,
-    canGoBack,
-    onNavigate,
-    onGoBack
+    page,
+    onPage,
 }) => {
 
     const { item } = useItem()
@@ -32,8 +28,8 @@ export const InvoicesBreadcrumb: React.FC<InvoicesBreadcrumbProps> = ({
         return [0, 1, 2, 3].map((pos) => ({
             position:       pos as InvoicePosition,
             label:          BREADCRUMB_LABELS[pos as InvoicePosition],
-            active:         pos === currentPosition,
-            accessible:     pos === 0 || pos <= currentPosition || item !== undefined
+            active:         pos === page,
+            accessible:     pos === 0 || pos <= page || item !== undefined
         }));
     };
 
@@ -57,7 +53,7 @@ export const InvoicesBreadcrumb: React.FC<InvoicesBreadcrumbProps> = ({
                     <React.Fragment key={item.position}>
                         <div 
                             className={`breadcrumb-item ${item.active ? 'active' : ''} ${item.accessible ? 'accessible' : 'disabled'}`}
-                            onClick={item.accessible ? () => onNavigate({ position: item.position, canGoBack: false }) : undefined}
+                            onClick={item.accessible ? () => onPage( item.position ) : undefined}
                         >
                             <span className="breadcrumb-number">
                                 {item.active ? `(${item.position})` : item.position}

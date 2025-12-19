@@ -27,19 +27,20 @@ import {
 
 import { Invoice }          from '../types';
 import ActShutdownForm      from '../../Acts/ActShutdown/ActShutdownForm';
-import ActPlomb             from '../../Acts/ActPlomb/ActplombForm';
+import ActPlomb             from '../../Acts/ActPlomb_/ActplombForm';
 import ActHouseInspects     from '../../Acts/ActHouseInspect/ActHouseInspect';
 import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
 import CompletedForm        from '../../Acts/ActCompleted/CompletedForm';
 
 import './InvoiceActs.css';
 import { useToast } from '../../Toast';
-import ActPrescriptPrint from '../../Acts/ActPrescript/ActPrescriptPrint';
 import ShutdownOrderForm from '../../Acts/ActShutdown/ActShutdownForm';
-import ActPlombForm from '../../Acts/ActPlomb/ActplombForm';
-import ActBatteryReplacementForm from '../../Acts/ActBatteryReplacement/ActBatteryReplacement';
+import ActPlombForm from '../../Acts/ActPlomb_/ActplombForm';
+import { ActBRForm } from '../../Acts/ActBatteryReplacement/ActBRForm';
+import { ActCCForm } from '../../Acts/ActCC/ActCCForm';
+import { ActSGEForm } from '../../Acts/ActSGE/ActSGEForm';
 
-type ActType = 'list' | 'work_completed' | 'shutdown_order' | 'sealing' | 'mkd_inspection' | 'private_inspection' | 'prescription' | 'act_battery';
+type ActType = 'list' | 'prescription' | 'act_battery'| 'act_counter_replace' | 'act_sge';
 
 interface InvoiceActsProps {
     invoice: Invoice;
@@ -47,38 +48,20 @@ interface InvoiceActsProps {
 
 const actButtons = [
     {
-        type: 'work_completed' as ActType,
-        name: 'Акт выполненных работ',
-        icon: documentTextOutline,
-        color: 'primary'
-    },
-    {
-        type: 'shutdown_order' as ActType,
-        name: 'Акт-наряд на отключение',
-        icon: businessOutline,
-        color: 'warning'
-    },
-    {
-        type: 'sealing' as ActType,
-        name: 'Акт пломбирования',
-        icon: businessOutline,
-        color: 'secondary'
-    },
-    {
-        type: 'mkd_inspection' as ActType,
-        name: 'Акт обследования МКД',
-        icon: homeOutline,
-        color: 'tertiary'
-    },
-    {
         type: 'act_battery' as ActType,
         name: 'Акт замены аккумуляторной батареи счетчика',
         icon: homeOutline,
         color: 'tertiary'
     },
     {
-        type: 'private_inspection' as ActType,
-        name: 'Акт обследования частного дома',
+        type: 'act_sge' as ActType,
+        name: 'Акт отключения бытового газоиспользующего газового оборудования',
+        icon: homeOutline,
+        color: 'success'
+    },
+    {
+        type: 'act_counter_replace' as ActType,
+        name: 'Акт замены счетчика',
         icon: homeOutline,
         color: 'success'
     },
@@ -103,80 +86,6 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
     const handleActButtonClick          = (actType: ActType) => {
         setCurrentView(actType);
     };
-
-
-    const handleBackToList              = () => {
-        setCurrentView('list');
-    };
-
-    
-    const handleSaveShutdownAct         = (data: any) => {
-        toast.success(`Акт-наряд №${data.act_number || 'б/н'} успешно сохранен`);
-        setCurrentView('list');
-    };
-
-    
-    const handleCancelShutdownAct       = () => {
-        setCurrentView('list');
-    };
-
-    
-    const handleSaveAct                 = () => {
-        toast.success('Акт сохранен (заглушка)');
-        setCurrentView('list');
-    };
-
-    const handleCancelAct               = () => {
-        setCurrentView('list');
-    };
-
-    // Компонент формы для создания актов (заглушки)
-    const ActForm: React.FC<{ children: React.ReactNode; title: string; onSave: () => void; onCancel: () => void }> = ({ 
-        children, 
-        title, 
-        onSave, 
-        onCancel 
-    }) => (
-        <div className="invoice-page">
-            <div className="invoice-page-header">
-                <h2 className="invoice-page-title">{title}</h2>
-                <p className="invoice-page-subtitle">Заявка #{invoice.number}</p>
-            </div>
-
-            <div className="invoice-page-content">
-                <IonCard>
-                    <IonCardHeader>
-                        <IonCardTitle>{title}</IonCardTitle>
-                    </IonCardHeader>
-                    <IonCardContent>
-                        {children}
-                        
-                        <IonGrid className="ion-margin-top">
-                            <IonRow>
-                                <IonCol size="6">
-                                    <IonButton 
-                                        expand="block" 
-                                        fill="outline"
-                                        onClick={onCancel}
-                                    >
-                                        Отмена
-                                    </IonButton>
-                                </IonCol>
-                                <IonCol size="6">
-                                    <IonButton 
-                                        expand="block" 
-                                        onClick={onSave}
-                                    >
-                                        Сохранить
-                                    </IonButton>
-                                </IonCol>
-                            </IonRow>
-                        </IonGrid>
-                    </IonCardContent>
-                </IonCard>
-            </div>
-        </div>
-    );
 
     // Компонент списка кнопок актов
     const ActButtonsList = () => (
@@ -228,61 +137,21 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
         </div>
     );
 
-    const MkdInspectionForm = () => (
-        <ActForm title="Акт обследования МКД" onSave={handleSaveAct} onCancel={handleCancelAct}>
-            <IonItem>
-                <IonLabel position="stacked">Результаты обследования</IonLabel>
-                <IonTextarea rows={5} placeholder="Описание состояния МКД..." />
-            </IonItem>
-            <IonItem>
-                <IonLabel position="stacked">Дата обследования</IonLabel>
-                <IonDatetime />
-            </IonItem>
-        </ActForm>
-    );
 
     // Рендер компонента в зависимости от текущего состояния
     const renderCurrentView = () => {
         switch (currentView) {
-            case 'work_completed':
-
-                return <CompletedForm 
-                    invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
-                    onSave      = { handleSaveShutdownAct }
-                    onCancel    = { handleCancelShutdownAct }
-                />
-                
-            case 'shutdown_order':
-
-                return <ShutdownOrderForm 
-                    invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
-                    onSave      = { handleSaveShutdownAct }
-                    onCancel    = { handleCancelShutdownAct }
-                />
-
-            case 'sealing':
-
-                return <ActPlombForm 
-                    invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
-                    onSave      = { handleSaveShutdownAct }
-                    onCancel    = { handleCancelShutdownAct }
-                />;
-
-            case 'mkd_inspection':
-
-                return <MkdInspectionForm />;
-
             case 'act_battery':
 
-                return <ActBatteryReplacementForm />;
+                return <ActBRForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
 
-            case 'private_inspection':
+            case 'act_counter_replace':
 
-                return <ActHouseInspects 
-                    invoiceId   = { invoice.id }  // 🎯 Передача ID заявки
-                    onSave      = { handleSaveShutdownAct }
-                    onCancel    = { handleCancelShutdownAct }                
-                />;
+                return <ActCCForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+
+            case 'act_sge':
+
+                return <ActSGEForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
 
             case 'prescription':
 
@@ -296,7 +165,9 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
     return (
         <>
-            {renderCurrentView()}
+            <div className='scroll'>
+                {renderCurrentView()}
+            </div>
         </>
     );
 };

@@ -10,6 +10,9 @@ export default defineConfig({
     react(),
     legacy()
   ],
+   build: {
+    assetsInlineLimit: 100 * 1024, // если нужно инлайнить до 100kb
+  },
   test: {
     globals: true,
     environment: 'jsdom',

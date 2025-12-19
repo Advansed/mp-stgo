@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon, IonItem, IonLabel, IonList, IonToast } from '@ionic/react';
 import { printOutline, qrCodeOutline, shareOutline, documentTextOutline } from 'ionicons/icons';
 import { Invoice } from '../types';
-import './Invoices.css';
 
 interface InvoicePrintFormProps {
     invoice: Invoice;

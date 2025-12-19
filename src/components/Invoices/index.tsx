@@ -1,12 +1,12 @@
-import React, { use, useEffect } from 'react';
-import { useHook } from './useHook';
-import { InvoicesBreadcrumb } from './components/InvoicesBreadcrumb';
-import { InvoicesList } from './components/InvoiceList/InvoicesList';
-import { InvoiceView } from './components/InvoiceView';
-import { InvoiceActs } from './components/InvoiceActs';
-import { InvoicePrintForm } from './components/InvoicePrintForm';
-import { useNavigation } from './useNavigation';
-import { useItem } from '../../Store/navigationStore';
+import React, { use, useEffect }        from 'react';
+import { useHook }                      from './useHook';
+import { InvoicesBreadcrumb }           from './components/InvoicesBreadcrumb';
+import { InvoicesList }                 from './components/InvoiceList/InvoicesList';
+import { InvoiceView }                  from './components/InvoiceView';
+import { InvoiceActs }                  from './components/InvoiceActs';
+import { InvoicePrintForm }             from './components/InvoicePrintForm';
+import { useItem, useRoutes }  from '../../Store/navigationStore';
+import './styles.css'
 
 const Invoices: React.FC = () => {
     const {
@@ -25,19 +25,25 @@ const Invoices: React.FC = () => {
 
     const { item, setItem } = useItem()
 
-    const { navigation, navigateToPosition, goBack } = useNavigation()
+    const { page, setPage, goBack } = useRoutes()
 
     const handleSelect = ( invoice: any) => {
 
         setItem( invoice );
-        navigateToPosition( { position: 1, canCoBack: true } )
+        //navigateToPosition( { position: 1, canCoBack: true } )
+        setPage( 1 )
 
     }
 
+    useEffect(() =>{ 
+        console.log("page change")
+    },[page])
+
     const renderCurrentPage = () => {
         
-        console.log("renderPage", navigation.position)
-        switch (navigation.position) {
+        console.log("renderPage", page )
+
+        switch ( page ) {
 
             case 0:
                 return (
@@ -63,22 +69,22 @@ const Invoices: React.FC = () => {
                         invoiceStatus           = { get_inv_status( item ) }
                         formatDate              = { format_date }
                         formatPhone             = { format_phone }
-                        onNavigateToActs        = { () => navigateToPosition({ position: 2, canCoBack: true }) }
-                        onNavigateToPrint       = { () => navigateToPosition({ position: 3, canCoBack: true }) }
+                        onNavigateToActs        = { () => setPage( 2 ) }
+                        onNavigateToPrint       = { () => setPage( 3 ) }
                         onUpdateAddress         = { (id, address) => uppdate_address(id, address) }
                     />
                 );
 
             case 2:
                 if (!item) {
-                    navigateToPosition({ position: 0, canCoBack: false });
+                    setPage( 0 );
                     return null;
                 }
                 return <InvoiceActs invoice={ item } />;
 
             case 3:
                 if (!item) {
-                    navigateToPosition(0);
+                    setPage( 0 );
                     return null;
                 }
                 return (
@@ -97,12 +103,12 @@ const Invoices: React.FC = () => {
     return (
         <div className="invoices-page">
             <InvoicesBreadcrumb
-                currentPosition                 = { navigation.position }
-                canGoBack                       = { navigation.canGoBack }
-                onNavigate                      = { navigateToPosition }
+                page                            = { page }
+                canGoBack                       = { page !== 0 }
+                onPage                          = { setPage }
                 onGoBack                        = { goBack }
             />
-            <div className='invoices-content'>
+            <div className = 'invoices-content'>
 
                 { renderCurrentPage() }
 

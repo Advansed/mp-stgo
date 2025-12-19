@@ -21,19 +21,24 @@ import Invoices from '../components/Invoices';
 import { useUser } from '../Store/loginStore';
 
 const Page: React.FC = () => {
-  const { name } = useParams<{ name: string; }>();
+  
+  const { name }                = useParams<{ name: string; }>();
 
-  const { user }      = useUser()
 
-  const { currentRoute, goBack } = useRoutes()
+  const { user }                = useUser()
 
-  const { add, setAdd } = useAdd()
 
-  const PageContent = () => {
+  const { route, page, goBack } = useRoutes()
+
+
+  const { add, setAdd }         = useAdd()
+
+  
+  const PageContent             = () => {
 
     let elem = <></>
-      switch(currentRoute.route) {
-          case '/lics':       elem = <Lics page = { currentRoute.page }/>;break;
+      switch(route) {
+          case '/lics':       elem = <Lics page = { page }/>;break;
           case '/invoices':   elem = <Invoices />;break;
           default: elem = <></>
       }
@@ -42,7 +47,7 @@ const Page: React.FC = () => {
 
   }
 
-  const get_name = (name) => {
+  const get_name                = (name) => {
     switch(name) {
       case 'lics':        return "Лицевые счета"
       case 'invoices':    return "Заявки"
@@ -50,7 +55,7 @@ const Page: React.FC = () => {
     }
   }
 
-  const buttons = (name) => {
+  const buttons                 = (name) => {
     switch(name) {
       case 'lics':   return <>
               <IonIcon icon = { addOutline }  className='w-15 h-15'
@@ -65,7 +70,6 @@ const Page: React.FC = () => {
       default: return <></>
     }
   }
-
 
   return (
     <IonPage>

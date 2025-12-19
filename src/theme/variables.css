@@ -471,6 +471,11 @@ body {
 
 .w-2 { width: 20px; }
 .h-2 { height: 20px; }
+.w-50 { width: 50%; }
+.h-50 { height: 50%; }
+
+.h-auto { height: auto}
+.w-auto { height: auto;}
 
 .flex { display: flex; align-items: center; }
 .fl-space { justify-content: space-between; }
@@ -478,6 +483,11 @@ body {
 
 .a-center { text-align: center; }
 .hidden { display: none; }
+
+.scroll {
+  flex: 1;               /* занимает всё оставшееся после хлебных крошек */
+  overflow-y: auto;      /* вертикальный скролл */
+}
 
 /* Safe area для мобильных */
 .a-container {
