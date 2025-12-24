@@ -430,7 +430,7 @@ export const ActBRForm: React.FC<ActBRFormProps> = ({ onBack, invoice_id }) => {
             <div className='w-50'>
               <IonButton onClick={handlePrint} fill="solid" expand='block' color="primary">
                 <IonIcon slot="start" icon={printOutline} />
-                Печать
+                Предпросмотр
               </IonButton>
             </div>
             <div className='w-50'>

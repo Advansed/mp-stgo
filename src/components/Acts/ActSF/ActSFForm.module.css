@@ -1,0 +1,198 @@
+/* ActSFForm.module.css */
+
+/* Основной контейнер */
+.meterActForm {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  overflow: hidden;
+}
+
+/* Шапка + кнопки */
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.formHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.formActions {
+  display: flex;
+  width: 100%;
+  gap: 0.25rem;
+}
+
+/* Компактные Ionic-кнопки в шапке */
+.formActionsButtons ion-button {
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+  --padding-top: 0.25rem;
+  --padding-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+
+/* Область прокрутки */
+.formScrollContainer {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+  margin-bottom: 0.5rem;
+}
+
+/* Стилизация скроллбара */
+.formScrollContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.formScrollContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.formScrollContainer::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.formScrollContainer::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Общая карточка */
+.meterActFormCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 1rem;
+}
+
+/* Контент формы */
+.meterActFormContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Превью-режим: секции внутри одной карточки */
+.previewModeFormSection {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.previewModeFormSection:last-child {
+  border-bottom: none;
+}
+
+.previewModeSectionTitle {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Компактная сетка полей */
+.previewModeSectionContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.5rem 0.75rem;
+}
+
+/* Поля превью: в одну строку */
+.previewField {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Подпись */
+.previewLabel {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+  min-width: 140px;
+}
+
+/* Значение */
+.previewValue {
+  color: #333;
+  font-size: 0.9rem;
+  padding: 0.15rem 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  min-height: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Модальное окно */
+.modalContent {
+}
+
+.noPdf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+}
+
+.noPdfIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #999;
+}
+
+/* Печать */
+@media print {
+  .formActions {
+    display: none !important;
+  }
+
+  .meterActForm {
+    height: auto;
+    padding: 0;
+  }
+
+  .formScrollContainer {
+    overflow: visible;
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+
+  .meterActFormCard {
+    border: 1px solid #000;
+  }
+
+  .previewModeFormSection {
+    break-inside: avoid;
+  }
+
+  .previewField {
+    break-inside: avoid;
+  }
+}

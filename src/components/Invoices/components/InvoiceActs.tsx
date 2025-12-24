@@ -9,38 +9,26 @@ import {
     IonCol, 
     IonGrid, 
     IonIcon, 
-    IonItem, 
-    IonLabel, 
     IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonTextarea,
-    IonDatetime
 } from '@ionic/react';
 import { 
-    documentTextOutline, 
-    businessOutline, 
     homeOutline, 
     warningOutline,
     cameraOutline 
 } from 'ionicons/icons';
 
 import { Invoice }          from '../types';
-import ActShutdownForm      from '../../Acts/ActShutdown/ActShutdownForm';
-import ActPlomb             from '../../Acts/ActPlomb_/ActplombForm';
-import ActHouseInspects     from '../../Acts/ActHouseInspect/ActHouseInspect';
 import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
-import CompletedForm        from '../../Acts/ActCompleted/CompletedForm';
-
 import './InvoiceActs.css';
 import { useToast } from '../../Toast';
-import ShutdownOrderForm from '../../Acts/ActShutdown/ActShutdownForm';
-import ActPlombForm from '../../Acts/ActPlomb_/ActplombForm';
-import { ActBRForm } from '../../Acts/ActBatteryReplacement/ActBRForm';
+import { ActBRForm } from '../../Acts/ActBR/ActBRForm';
 import { ActCCForm } from '../../Acts/ActCC/ActCCForm';
 import { ActSGEForm } from '../../Acts/ActSGE/ActSGEForm';
+import { ActPlombForm } from '../../Acts/ActPlomb/ActPlombForm';
+import { ActSFForm } from '../../Acts/ActSF/ActSFForm';
+import { ActIGEForm } from '../../Acts/ActIGE/ActIGEForm';
 
-type ActType = 'list' | 'prescription' | 'act_battery'| 'act_counter_replace' | 'act_sge';
+type ActType = 'list' | 'prescription' | 'act_battery'| 'act_counter_replace' | 'act_sge' | 'act_plomb' | 'act_sf' | 'act_ige';
 
 interface InvoiceActsProps {
     invoice: Invoice;
@@ -62,6 +50,24 @@ const actButtons = [
     {
         type: 'act_counter_replace' as ActType,
         name: 'Акт замены счетчика',
+        icon: homeOutline,
+        color: 'success'
+    },
+    {
+        type: 'act_plomb' as ActType,
+        name: 'Акт пломбирования ПУ',
+        icon: homeOutline,
+        color: 'success'
+    },
+    {
+        type: 'act_sf' as ActType,
+        name: 'Акт срыва пломбы ПУ',
+        icon: homeOutline,
+        color: 'success'
+    },
+    {
+        type: 'act_ige' as ActType,
+        name: 'Акт установки газового счетчика',
         icon: homeOutline,
         color: 'success'
     },
@@ -152,6 +158,18 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
             case 'act_sge':
 
                 return <ActSGEForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+
+            case 'act_plomb':
+
+                return <ActPlombForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+
+            case 'act_sf':
+
+                return <ActSFForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+
+            case 'act_ige':
+
+                return <ActIGEForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
 
             case 'prescription':
 

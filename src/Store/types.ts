@@ -299,3 +299,57 @@ export interface MeterSealingData {
   status:                 string;
   document_scan_path:     string;
 }
+
+export interface SealBreakData {
+  invoice_id?:            string;
+  act_number:             string;
+  act_date:               string;
+  technician1_name:       string;
+  technician2_name:       string;
+  technician_position:    string;
+  owner_name:             string;
+  owner_phone:            string;
+  object_type:            string;
+  street:                 string;
+  house:                  string;
+  apartment?:             string;
+  break_date:             string;
+  break_seal_number:      string;
+  break_seal_color?:      string;
+  break_meter_model:      string;
+  break_meter_number:     string;
+  break_meter_reading:    string;
+  reason:                 string;
+  install_date:           string;
+  install_seal_number:    string;
+  install_seal_color?:    string;
+  install_meter_model:    string;
+  install_meter_number:   string;
+  install_meter_reading:  string;
+  technician1_signature:  string;
+  technician2_signature?: string;
+  owner_signature:        string;
+  status:                 string;
+  document_scan_path?:    string;
+}
+
+export interface MeterInstallationData {
+
+  invoice_id?:            string;
+  act_number:             string;
+  act_date:               string;
+  technician_name:        string;
+  technician_signature:   string;
+  owner_name:             string;
+  owner_phone:            string;
+  owner_signature:        string;
+  object_address:         string | { address: string };
+  installation_date:      string;
+  meter_model:            string;
+  meter_number:           string;
+  meter_reading:          string;
+  seal_number:            string;
+  status:                 string;
+  document_scan_path:     string;
+
+}
