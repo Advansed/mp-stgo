@@ -18,7 +18,7 @@ import {
 } from 'ionicons/icons';
 
 import { Invoice }          from '../types';
-import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
+//import ActPrescript         from '../../Acts/ActPrescript/ActPrescript';
 import './InvoiceActs.css';
 import { useToast } from '../../Toast';
 import { ActBRForm } from '../../Acts/ActBR/ActBRForm';

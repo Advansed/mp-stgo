@@ -205,7 +205,6 @@ export interface BatteryReplacementData {
   document_scan_path:             string;
 }
 
-// Store/types.ts - добавляем тип
 export interface MeterReplacementData {
   id?: string;
   invoice_id?: string;
@@ -280,7 +279,6 @@ export interface DisconnectionActData {
   document_scan_path?: string;
 }
 
-// Store/types.ts - добавить к существующим типам
 export interface MeterSealingData {
   invoice_id?:            string;
   act_number:             string;

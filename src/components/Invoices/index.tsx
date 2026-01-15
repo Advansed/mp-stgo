@@ -3,10 +3,10 @@ import { useHook }                      from './useHook';
 import { InvoicesBreadcrumb }           from './components/InvoicesBreadcrumb';
 import { InvoicesList }                 from './components/InvoiceList/InvoicesList';
 import { InvoiceView }                  from './components/InvoiceView';
-import { InvoiceActs }                  from './components/InvoiceActs';
 import { InvoicePrintForm }             from './components/InvoicePrintForm';
 import { useItem, useRoutes }  from '../../Store/navigationStore';
 import './styles.css'
+import ActsManager from './components/InvoiceActs';
 
 const Invoices: React.FC = () => {
     const {
@@ -80,7 +80,8 @@ const Invoices: React.FC = () => {
                     setPage( 0 );
                     return null;
                 }
-                return <InvoiceActs invoice={ item } />;
+                //return <InvoiceActs invoice={ item } />;
+                return <ActsManager invoice = { item }/>
 
             case 3:
                 if (!item) {

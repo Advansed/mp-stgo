@@ -1,5 +1,5 @@
 
-const url = 'https://dmz.aostng.ru/mi/'
+const url = 'https://fhd.aostng.ru/mi/'
 
 export interface TResponse {
   success:          boolean;

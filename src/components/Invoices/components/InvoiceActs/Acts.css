@@ -1,0 +1,48 @@
+/* Acts/Acts.css */
+.acts-page-header {
+    padding: 16px;
+    text-align: center;
+}
+
+.acts-page-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.no-acts-message {
+    text-align: center;
+    padding: 32px;
+    color: var(--ion-color-medium);
+}
+
+.no-acts-message ion-icon {
+    margin-bottom: 16px;
+    font-size: 48px;
+}
+
+.act-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.act-create-button {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    height: auto;
+    min-height: 70px;
+}
+
+.act-form-page ion-toolbar {
+    --background: var(--ion-color-light);
+    --border-color: var(--ion-color-light-shade);
+}
+
+.act-view-pdf {
+    width: 100%;
+    height: 600px;
+    border: 1px solid var(--ion-color-light-shade);
+    border-radius: 8px;
+}
