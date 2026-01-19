@@ -1,5 +1,5 @@
 // Acts/ActBR/ActBRView.tsx
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   IonLoading,
   IonButton,
@@ -10,31 +10,30 @@ import {
   printOutline,
   createOutline,
   documentOutline,
+  arrowBackOutline,
 } from 'ionicons/icons';
 import styles from './ActBRForm.module.css';
 import { useToast } from '../../Toast';
-import { ActData } from '../../../Store/ActTypes';
+import { ActData, Signature } from '../../../Store/ActTypes';
 import { PDFDoc } from '../../Files';
 import { t_actbr } from '../../../constants/templates';
 import { useActBR } from './useActBR';
 
 interface ActBRViewProps {
   act: ActData | null;
+  onBack?: () => void;
   onEdit: () => void;
 }
 
-export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
+export const ActBRView: React.FC<ActBRViewProps> = ({ act, onBack, onEdit }) => {
   const toast = useToast();
   const [modal, setModal] = useState<string | undefined>(undefined);
-
   const { isLoading, get_pdf } = useActBR();
 
   const handlePrint = async () => {
     if (!act || act.type !== 'actbr') return;
 
     const res = await get_pdf(t_actbr, act.details);
-    console.log('get_pdf', res);
-    
     if (res.success) {
       setModal(res.data);
       toast.success("PDF сгенерирован");
@@ -43,17 +42,34 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
     }
   };
 
-  // Функция для рендеринга данных в режиме предпросмотра
-  const renderPreviewData = () => {
-    if (!act || act.type !== 'actbr') return [];
+  // Форматирование адреса
+  const formatAddress = (address: string | { address?: string } | undefined): string => {
+    if (!address) return '—';
+    return typeof address === 'string' ? address : address.address || '—';
+  };
 
+  // Форматирование даты
+  const formatDate = (date: string | undefined): string => {
+    return date ? new Date(date).toLocaleDateString('ru-RU') : '—';
+  };
+
+  // Форматирование подписи
+  const formatSignature = (signature: Signature | undefined): string => {
+    if (!signature || !signature.dataUrl) return '—';
+    return signature.dataUrl ? 'Подпись присутствует' : '—';
+  };
+
+  // Создание секций для отображения
+  const previewSections = useMemo(() => {
+    if (!act || act.type !== 'actbr') return [];
+    
     const actData = act.details;
-    const previewSections = [
+    return [
       {
         title: 'Основная информация',
         data: [
           { label: 'Номер акта', value: act.act_number || '—' },
-          { label: 'Дата акта', value: act.act_date ? new Date(act.act_date).toLocaleDateString('ru-RU') : '—' },
+          { label: 'Дата акта', value: formatDate(act.act_date) },
         ],
       },
       {
@@ -74,20 +90,13 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
         title: 'Объект',
         data: [
           { label: 'Тип объекта', value: actData?.object_type || '—' },
-          { 
-            label: 'Адрес', 
-            value: actData?.object_address 
-              ? (typeof actData.object_address === 'string' 
-                  ? actData.object_address 
-                  : (actData.object_address as any)?.address || '—')
-              : '—' 
-          },
+          { label: 'Адрес', value: formatAddress(actData?.object_address) },
         ],
       },
       {
         title: 'Снятый счетчик',
         data: [
-          { label: 'Дата снятия', value: actData?.removal_date ? new Date(actData.removal_date).toLocaleDateString('ru-RU') : '—' },
+          { label: 'Дата снятия', value: formatDate(actData?.removal_date) },
           { label: 'Модель', value: actData?.removed_meter_model || '—' },
           { label: 'Номер', value: actData?.removed_meter_number || '—' },
           { label: 'Показания', value: actData?.removed_meter_reading || '—' },
@@ -97,7 +106,7 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
       {
         title: 'Установленный счетчик',
         data: [
-          { label: 'Дата установки', value: actData?.installation_date ? new Date(actData.installation_date).toLocaleDateString('ru-RU') : '—' },
+          { label: 'Дата установки', value: formatDate(actData?.installation_date) },
           { label: 'Модель', value: actData?.installed_meter_model || '—' },
           { label: 'Номер', value: actData?.installed_meter_number || '—' },
           { label: 'Показания', value: actData?.installed_meter_reading || '—' },
@@ -107,18 +116,14 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
       {
         title: 'Подписи и статус',
         data: [
-          { label: 'Подпись техника', value: actData?.technician_signature || '—' },
-          { label: 'Подпись владельца', value: actData?.owner_signature || '—' },
+          { label: 'Подпись техника', value: formatSignature(actData?.technician_signature) },
+          { label: 'Подпись владельца', value: formatSignature(actData?.owner_signature) },
           { label: 'Статус', value: act?.status || '—' },
           { label: 'Путь к скану', value: act?.document_scan_path || '—' },
         ],
       },
     ];
-
-    return previewSections;
-  };
-
-  const previewSections = renderPreviewData();
+  }, [act]);
 
   if (!act) {
     return (
@@ -140,9 +145,23 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
     <>
       <IonLoading isOpen={isLoading} message="Подождите..." />
       <div className={styles.batteryActForm}>
+        {/* Заголовок с кнопкой назад */}
         <div className={styles.formHeaderLeft}>
+          {onBack && (
+            <IonButton 
+              fill="clear" 
+              onClick={onBack}
+              className="back-button"
+              style={{ marginRight: '8px' }}
+            >
+              <IonIcon icon={arrowBackOutline} slot="start" />
+              Назад
+            </IonButton>
+          )}
           <h2 className={styles.formTitle}><b>Акт замены батареи</b></h2>
         </div>
+
+        {/* Кнопки действий */}
         <div className={styles.formHeader}>
           <div className={`${styles.formActions} ${styles.formActionsButtons}`}>
             <div className='w-50'>
@@ -160,26 +179,18 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
           </div>
         </div>
 
+        {/* Контент */}
         <div className={styles.formScrollContainer}>
           <div className={styles.batteryActFormCard}>
             <div className={styles.batteryActFormContent}>
               {previewSections.map((section, sectionIndex) => (
-                <div
-                  key={sectionIndex}
-                  className={styles.previewModeFormSection}
-                >
-                  <h3 className={styles.previewModeSectionTitle}>
-                    {section.title}
-                  </h3>
+                <div key={sectionIndex} className={styles.previewModeFormSection}>
+                  <h3 className={styles.previewModeSectionTitle}>{section.title}</h3>
                   <div className={styles.previewModeSectionContent}>
                     {section.data.map((field, fieldIndex) => (
                       <div key={fieldIndex} className={styles.previewField}>
-                        <span className={styles.previewLabel}>
-                          {field.label}:
-                        </span>
-                        <span className={styles.previewValue}>
-                          {field.value}
-                        </span>
+                        <span className={styles.previewLabel}>{field.label}:</span>
+                        <span className={styles.previewValue}>{field.value}</span>
                       </div>
                     ))}
                   </div>
@@ -190,6 +201,7 @@ export const ActBRView: React.FC<ActBRViewProps> = ({ act, onEdit }) => {
         </div>
       </div>
 
+      {/* Модальное окно для PDF */}
       <IonModal
         className={styles.modal}
         isOpen={modal !== undefined}

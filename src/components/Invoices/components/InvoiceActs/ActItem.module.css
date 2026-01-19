@@ -1,0 +1,301 @@
+/* ActItem.module.css - Темный стиль как у InvoiceItem */
+
+.actCard {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%) !important;
+  border-radius: var(--corp-radius-lg) !important;
+  border: none !important;
+  box-shadow: var(--corp-shadow-md) !important;
+  margin: var(--corp-space-2) var(--corp-space-3) !important;
+  transition: all var(--corp-transition-normal) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.actCard:active {
+  transform: scale(0.98);
+  box-shadow: var(--corp-shadow-sm) !important;
+  background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%) !important;
+}
+
+/* Индикатор статуса слева */
+.actCard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.cardContentWrapper {
+  padding: var(--corp-space-3);
+}
+
+/* Заголовок - номер и статус в одной строке */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--corp-space-3);
+  gap: var(--corp-space-2);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--corp-space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+.actNumber {
+  color: var(--corp-white) !important;
+  font-size: var(--corp-font-size-lg) !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.actDate {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  margin: 0 !important;
+  white-space: nowrap;
+}
+
+/* Статус */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--corp-radius-sm);
+  font-size: var(--corp-font-size-xs);
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--corp-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-transform: capitalize;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.statusDraft {
+  background-color: rgba(255, 193, 7, 0.8);
+  color: #2d3748;
+  border-color: rgba(255, 193, 7, 0.9);
+}
+
+.statusSigned {
+  background-color: rgba(40, 167, 69, 0.8);
+  color: var(--corp-white);
+  border-color: rgba(40, 167, 69, 0.9);
+}
+
+.statusCompleted {
+  background-color: rgba(40, 167, 69, 0.8);
+  color: var(--corp-white);
+  border-color: rgba(40, 167, 69, 0.9);
+}
+
+.statusArchived {
+  background-color: rgba(255, 255, 255, 0.25);
+  color: var(--corp-white);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Основной контент - компактный */
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--corp-space-2);
+}
+
+/* Строка с полями - имя и значение в одной строке */
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--corp-space-2);
+  margin-bottom: var(--corp-space-1);
+}
+
+.labelWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.labelIcon {
+  color: var(--corp-white) !important;
+  font-size: 1.5em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+.infoLabel {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.infoValue {
+  color: var(--corp-white) !important;
+  font-size: var(--corp-font-size-sm) !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+  line-height: 1.3;
+  flex: 1;
+  word-break: break-word;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.infoValue b {
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Футер - кнопки на одной строке */
+.cardFooter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: var(--corp-space-3);
+  padding-top: var(--corp-space-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.actActions {
+  display: flex;
+  gap: var(--corp-space-2);
+  width: 100%;
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--corp-space-2) var(--corp-space-3);
+  border: none;
+  border-radius: var(--corp-radius-md);
+  font-family: var(--corp-font-family);
+  font-size: var(--corp-font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--corp-transition-normal);
+  text-decoration: none;
+  flex: 1;
+  min-height: 36px;
+  white-space: nowrap;
+}
+
+.actionButtonPrimary {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--corp-white);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.actionButtonPrimary:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(0.98);
+}
+
+.actionButtonSecondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--corp-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.actionButtonSecondary:active:not(:disabled) {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(0.98);
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actionIcon {
+  margin-right: var(--corp-space-1);
+  font-size: 14px;
+}
+
+/* Адаптивность для очень маленьких экранов */
+@media (max-width: 380px) {
+  .actCard {
+    margin: var(--corp-space-2) var(--corp-space-2) !important;
+  }
+  
+  .cardContentWrapper {
+    padding: var(--corp-space-2);
+  }
+  
+  .cardHeader {
+    flex-wrap: wrap;
+    gap: var(--corp-space-1);
+  }
+  
+  .headerLeft {
+    flex-wrap: wrap;
+  }
+  
+  .actNumber {
+    font-size: var(--corp-font-size-base) !important;
+  }
+  
+  .infoRow {
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: var(--corp-space-1);
+  }
+  
+  .infoLabel {
+    min-width: auto;
+    font-size: 11px !important;
+  }
+  
+  .infoValue {
+    font-size: var(--corp-font-size-xs) !important;
+  }
+  
+  .actActions {
+    flex-direction: column;
+  }
+  
+  .actionButton {
+    width: 100%;
+  }
+}
+
+/* Улучшения для touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .actCard:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.actCard {
+  animation: fadeInUp 0.3s ease-out;
+}

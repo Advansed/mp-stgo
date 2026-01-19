@@ -5,7 +5,7 @@ import styles from './ActBRForm.module.css';
 import { useLoginStore } from '../../../Store/loginStore';
 import { PageData } from '../../DataEditor/types';
 import DataEditor from '../../DataEditor';
-import { ActData, BatteryReplacementData, ActStatus } from '../../../Store/ActTypes';
+import { ActData, BatteryReplacementData, ActStatus, Signature } from '../../../Store/ActTypes';
 
 interface ActBRFormProps {
   act:      ActData | null;
@@ -72,8 +72,9 @@ export const ActBRForm: React.FC<ActBRFormProps> = ({ act, onClose, onSave }) =>
       title: 'Объект',
       data: [
         { 
-          label: 'Тип объекта', 
-          type: 'string', 
+          label:  'Тип объекта', 
+          type:   'select', 
+          values: ['Жилой дом', 'Гараж', 'Баня', 'Другое'],
           data: actData?.object_type || '', 
           validate: true 
         },
@@ -160,28 +161,15 @@ export const ActBRForm: React.FC<ActBRFormProps> = ({ act, onClose, onSave }) =>
       data: [
         { 
           label: 'Подпись техника', 
-          type: 'string', 
-          data: actData?.technician_signature || '', 
+          type: 'sign', 
+          data: actData?.technician_signature || { dataUrl : '', format: '' }, 
           validate: true 
         },
         { 
           label: 'Подпись владельца', 
-          type: 'string', 
-          data: actData?.owner_signature || '', 
+          type: 'sign', 
+          data: actData?.owner_signature || { dataUrl : '', format: '' }, 
           validate: true 
-        },
-        { 
-          label: 'Статус', 
-          type: 'select', 
-          values: ['draft', 'signed', 'completed', 'archived'], 
-          data: act?.status || 'draft', 
-          validate: true 
-        },
-        { 
-          label: 'Путь к скану', 
-          type: 'string', 
-          data: act?.document_scan_path || '', 
-          validate: false 
         },
       ],
     },
@@ -207,18 +195,22 @@ export const ActBRForm: React.FC<ActBRFormProps> = ({ act, onClose, onSave }) =>
       installed_meter_number:     data[5].data[2].data as string,
       installed_meter_reading:    data[5].data[3].data as string,
       installed_seal_number:      data[5].data[4].data as string,
-      technician_signature:       data[6].data[0].data as string,
-      owner_signature:            data[6].data[1].data as string,
+      technician_signature:       (typeof data[6].data[0].data === 'object' && data[6].data[0].data !== null)
+        ? (data[6].data[0].data as Signature)
+        : { dataUrl: (data[6].data[0].data as string) || '', format: 'image/png' },
+      owner_signature:            (typeof data[6].data[1].data === 'object' && data[6].data[1].data !== null)
+        ? (data[6].data[1].data as Signature)
+        : { dataUrl: (data[6].data[1].data as string) || '', format: 'image/png' },
     };
 
     const updatedAct: any = {
       ...act,
-      act_number: data[0].data[0].data as string,
-      act_date: data[0].data[1].data as string,
-      status: (data[6].data[2].data as ActStatus) || 'draft',
-      document_scan_path: data[6].data[3].data as string,
-      details: details,
-      updated_at: new Date().toISOString(),
+      act_number:                 data[0].data[0].data as string,
+      act_date:                   data[0].data[1].data as string,
+      status:                     'draft',
+      document_scan_path:         '',
+      details:                    details,
+      updated_at:                 new Date().toISOString(),
     };
 
     onSave(updatedAct);

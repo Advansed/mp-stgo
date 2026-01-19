@@ -1,19 +1,16 @@
-// Acts/ActForm.tsx
+// Acts/ActView.tsx
 import React, { useState, useEffect } from 'react';
 import { ActData, ActType } from '../../../../Store/ActTypes';
 import { useActStore } from '../../../../Store/actStore';
-import { t_actbr, t_actmi, t_actmr, t_actplomb, t_actsf, t_actsge } from '../../../../constants/templates';
-import { ActBRForm } from '../../../Acts/ActBR/ActBRForm';
+import { ActBRView } from '../../../Acts/ActBR/ActBRView';
 
-interface ActFormProps {
-    onClose:        () => void;
-    onSave:         (act:ActData) => Promise<void>
+interface ActViewProps {
+    onBack:        () => void;
+    onEdit:        () => void;
 }
 
-type TemplateType = typeof t_actbr | typeof t_actmr | typeof t_actmi | typeof t_actplomb | typeof t_actsf | typeof t_actsge;
-
-export const ActForm: React.FC<ActFormProps> = ({
-    onClose, onSave
+export const ActView: React.FC<ActViewProps> = ({
+    onBack, onEdit
 }) => {
     const act   = useActStore(state => state.act)
 
@@ -25,17 +22,11 @@ export const ActForm: React.FC<ActFormProps> = ({
         }
     },[ act ])
 
-    const handleSave = (n_act) => {
-        onSave( n_act )
-    }
-
-
-
     return (
         <>
             { 
                 type === 'actbr' 
-                    ? <ActBRForm act = { act  } onClose = { onClose } onSave = { handleSave }/>
+                    ? <ActBRView act = { act  } onBack = { onBack } onEdit = { onEdit }/>
                 : type === 'actmr' 
                     ? <></>
                 : type === 'actmi' 

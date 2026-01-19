@@ -2,11 +2,8 @@
 import React from 'react';
 import {
     IonList,
-    IonItem,
-    IonLabel,
     IonButton,
     IonIcon,
-    IonBadge,
     IonCard,
     IonCardHeader,
     IonCardTitle,
@@ -14,18 +11,18 @@ import {
 } from '@ionic/react';
 import { 
     documentOutline, 
-    eyeOutline, 
-    createOutline,
-    addOutline // Добавлена иконка
+    addOutline
 } from 'ionicons/icons';
 import './Acts.css';
 import { ActData } from '../../../../Store/ActTypes';
+import { ActItem } from './ActItem';
 
 interface ActsListProps {
     acts:           ActData[],
     loading:        boolean, 
     invoiceId:      string;
-    onModeChange:   ( mode: 'view' | 'edit' | 'create', actId?: string, actType?: ActData['type'] ) => void;
+    onPreview:      ( id, type ) => void;
+    onEdit:         ( id, type ) => void;
     onCreateClick:  () => void; // Новая пропса
 }
 
@@ -33,7 +30,8 @@ export const ActsList: React.FC<ActsListProps> = ({
     acts, 
     loading,
     invoiceId,
-    onModeChange,
+    onPreview,
+    onEdit,
     onCreateClick // Новая пропса
 }) => {
     const actTemplates = [
@@ -86,45 +84,13 @@ export const ActsList: React.FC<ActsListProps> = ({
                     ) : (
                         <IonList lines="full">
                             {acts.map((act) => (
-                                <IonItem key={act.id} button onClick={() => onModeChange('view', act.id)}>
-                                    <IonIcon 
-                                        icon={documentOutline} 
-                                        slot="start" 
-                                        color="primary"
-                                    />
-                                    <IonLabel>
-                                        <h3>{act.act_number || `Акт #${act.id.slice(0, 8)}`}</h3>
-                                        <p>Тип: {actTemplates.find(t => t.type === act.type)?.name || act.type}</p>
-                                        <p>Создан: { act.created_at }</p>
-                                    </IonLabel>
-                                    <IonBadge 
-                                        //color={getStatusColor(act.status)}
-                                    >
-                                        { act.status }
-                                    </IonBadge>
-                                    <div slot="end" className="act-actions">
-                                        <IonButton 
-                                            fill="clear" 
-                                            size="small"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onModeChange('edit', act.id);
-                                            }}
-                                        >
-                                            <IonIcon icon={createOutline} />
-                                        </IonButton>
-                                        <IonButton 
-                                            fill="clear" 
-                                            size="small"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onModeChange('view', act.id);
-                                            }}
-                                        >
-                                            <IonIcon icon={eyeOutline} />
-                                        </IonButton>
-                                    </div>
-                                </IonItem>
+                                <ActItem
+                                    key={act.id}
+                                    act={act}
+                                    actTemplates    = { actTemplates }
+                                    onPreview       = { onPreview }
+                                    onEdit          = { onEdit }
+                                />
                             ))}
                         </IonList>
                     )}

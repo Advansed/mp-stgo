@@ -46,3 +46,86 @@
     border: 1px solid var(--ion-color-light-shade);
     border-radius: 8px;
 }
+
+/* Стили для актов */
+.act-label {
+    width: 100%;
+}
+
+.act-title {
+    color: var(--corp-gray-700);
+    font-size: var(--corp-font-size-lg);
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.act-type {
+    color: var(--corp-gray-600);
+    font-size: var(--corp-font-size-sm);
+    margin: 0 0 4px 0;
+}
+
+.act-date {
+    color: var(--corp-gray-500);
+    font-size: var(--corp-font-size-xs);
+    margin: 0 0 var(--corp-space-3) 0;
+}
+
+.act-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--corp-space-3);
+    margin-top: var(--corp-space-3);
+}
+
+.act-status {
+    display: flex;
+    align-items: center;
+}
+
+.act-badge {
+    font-size: var(--corp-font-size-xs);
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background-color: var(--corp-gray-100);
+    color: var(--corp-gray-700);
+    border: 1px solid var(--corp-gray-200);
+}
+
+.act-actions {
+    display: flex;
+    gap: var(--corp-space-2);
+}
+
+.act-action-btn {
+    flex: 1;
+    min-height: 36px;
+    padding: var(--corp-space-2) var(--corp-space-3);
+    font-size: var(--corp-font-size-sm);
+    white-space: nowrap;
+}
+
+.act-action-icon {
+    margin-right: 4px;
+    font-size: 14px;
+}
+
+/* Цвета для статусов (добавьте по необходимости) */
+.act-badge.status-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.act-badge.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeaa7;
+}
+
+.act-badge.status-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}

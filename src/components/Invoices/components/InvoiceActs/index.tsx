@@ -1,7 +1,7 @@
 // Acts/index.tsx
 import React, { useState, useEffect } from 'react';
 import { ActsList } from './ActsList';
-//import { ActView } from './ActView';
+import { ActView } from './ActView';
 import { ActForm } from './ActForm';
 import { useActs } from './useActs';
 import { ActType } from '../../../../Store/ActTypes'; // Добавляем импорт
@@ -21,7 +21,7 @@ export const ActsManager: React.FC<ActsManagerProps> = ({
     const [selectedActId, setSelectedActId] = useState<string | undefined>();
     const [selectedActType, setSelectedActType] = useState<ActType | undefined>();
 
-    const { acts, loading, loadActs, getAct } = useActs(invoice.id);
+    const { acts, loading, loadActs, getAct, getActById, saveAct } = useActs(invoice.id);
 
     const handleModeChange = (newMode: 'list' | 'create' | 'view' | 'edit', actId?: string, actType?: ActType) => {
         setMode(newMode);
@@ -33,6 +33,7 @@ export const ActsManager: React.FC<ActsManagerProps> = ({
         handleModeChange('create');
     };
 
+
     const handleActTypeSelect = async(actType: ActType) => {
         // Переходим к форме создания конкретного типа акта
         await getAct( invoice.id, actType )
@@ -40,6 +41,18 @@ export const ActsManager: React.FC<ActsManagerProps> = ({
         handleModeChange('edit', undefined, actType);    
         
     };
+
+    const handleActView = async( id ) => {
+        await getActById ( invoice.id, id )
+
+       handleModeChange('view', id )
+   }
+
+   const handleActEdit = async( id ) => {
+        await getActById ( invoice.id, id )
+
+        handleModeChange('edit', id )
+    }
 
     const renderContent = () => {
         switch (mode) {
@@ -49,7 +62,8 @@ export const ActsManager: React.FC<ActsManagerProps> = ({
                         invoiceId       = { invoice.number }
                         acts            = { acts }
                         loading         = { loading }
-                        onModeChange    = { handleModeChange }
+                        onPreview       = { handleActView }
+                        onEdit          = { handleActEdit }
                         onCreateClick   = { handleCreateClick } // Передаем обработчик
                     />
                 );
@@ -67,17 +81,16 @@ export const ActsManager: React.FC<ActsManagerProps> = ({
                 return ( 
                     <ActForm
                         onClose         = { () => handleModeChange('list') }
+                        onSave          = { saveAct }
                     />
                 );
 
             case 'view':
                 return (
-                    <></>
-                    // <ActView
-                    //     actId={selectedActId!}
-                    //     onBack={() => handleModeChange('list')}
-                    //     onEdit={() => handleModeChange('edit', selectedActId!)}
-                    // />
+                    <ActView
+                        onBack          ={() => handleModeChange('list')}
+                        onEdit          ={() => handleModeChange('edit', selectedActId!)}
+                    />
                 );
 
             default:

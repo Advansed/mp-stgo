@@ -9,7 +9,7 @@ import SignatureCanvas from 'react-signature-canvas';
 
 interface ImageFieldProps {
   label: string;
-  value: string;
+  value: string | { dataUrl: string; format: string } | undefined;
   onChange: (value: any) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -34,7 +34,7 @@ export const SignField: React.FC<ImageFieldProps> = ({
   const handleSignatureEnd = () => {
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const dataURL = signatureRef.current.toDataURL('image/png');
-      onChange([{dataUrl: dataURL, format: "png"}]);
+      onChange({ dataUrl: dataURL, format: 'image/png' });
     }
   };
 
@@ -42,17 +42,33 @@ export const SignField: React.FC<ImageFieldProps> = ({
   const handleClearSignature = () => {
     if (signatureRef.current) {
       signatureRef.current.clear();
-      onChange('');
+      onChange({ dataUrl: '', format: '' });
     }
   };
 
   // Если есть значение, устанавливаем подпись
   useEffect(() => {
-    if (value && signatureRef.current && signatureRef.current.isEmpty()) {
-      // Здесь можно добавить логику для загрузки существующей подписи
-      // Например, если value является dataURL
+    if (!signatureRef.current) return;
+
+    // Получаем dataUrl из value (может быть строка или объект Signature)
+    const dataUrl = typeof value === 'object' && value !== null && value !== undefined
+      ? (value as { dataUrl?: string }).dataUrl || ''
+      : (typeof value === 'string' ? value : '');
+
+    // Если есть dataUrl и canvas пустой, загружаем изображение
+    if (dataUrl && signatureRef.current.isEmpty()) {
+      try {
+        // Используем fromDataURL для загрузки изображения на canvas
+        signatureRef.current.fromDataURL(dataUrl);
+      } catch (error) {
+        console.error('Ошибка загрузки подписи:', error);
+        toast.error('Не удалось загрузить подпись');
+      }
+    } else if (!dataUrl && !signatureRef.current.isEmpty()) {
+      // Если dataUrl пустой, но canvas не пустой, очищаем canvas
+      signatureRef.current.clear();
     }
-  }, [value]);
+  }, [value, toast]);
 
   return (
     <>
@@ -83,7 +99,11 @@ export const SignField: React.FC<ImageFieldProps> = ({
           </IonButton>
         </div>
 
-        {placeholder && !value && (
+        {placeholder && (
+          !value || 
+          (typeof value === 'string' && !value) || 
+          (typeof value === 'object' && value !== null && !(value as { dataUrl?: string }).dataUrl)
+        ) && (
           <div className={styles.placeholder}>{placeholder}</div>
         )}
 

@@ -23,6 +23,11 @@ export interface AddressObject {
   lon?: number;
 }
 
+export interface Signature {
+  dataUrl:  string;
+  format:   string;
+}
+
 // 1. BatteryReplacementData (для actbr) - АКТ ЗАМЕНЫ СЧЕТЧИКА
 export interface BatteryReplacementData {
   // Исполнитель работ
@@ -51,20 +56,20 @@ export interface BatteryReplacementData {
   installed_seal_number: string;
   
   // Подписи
-  technician_signature: string;
-  owner_signature: string;
+  technician_signature: Signature;
+  owner_signature: Signature;
 }
 
 // 2. MeterInstallationData (для actms) - АКТ МОНТАЖА СЧЕТЧИКА
 export interface MeterInstallationData {
   // Исполнитель работ
   technician_name: string;
-  technician_signature: string;
+  technician_signature: Signature;
   
   // Владелец
   owner_name: string;
   owner_phone: string;
-  owner_signature: string;
+  owner_signature: Signature;
   
   // Адрес объекта
   object_address: string | AddressObject;
@@ -113,8 +118,8 @@ export interface MeterReplacementData {
   installed_seal_number: string;
   
   // Подписи
-  technician_signature: string;
-  owner_signature: string;
+  technician_signature: Signature;
+  owner_signature: Signature;
 }
 
 // 4. MeterSealingData (для actplomb) - АКТ ПЛОМБИРОВАНИЯ
@@ -137,8 +142,8 @@ export interface MeterSealingData {
   
   // Примечания и подписи
   note: string;
-  technician_signature: string;
-  owner_signature: string;
+  technician_signature: Signature;
+  owner_signature: Signature;
 }
 
 // 5. SealBreakData (для actsf) - АКТ СНЯТИЯ ПЛОМБЫ
@@ -176,9 +181,9 @@ export interface SealBreakData {
   install_meter_reading: string;
   
   // Подписи
-  technician1_signature: string;
-  technician2_signature: string;
-  owner_signature: string;
+  technician1_signature: Signature;
+  technician2_signature: Signature;
+  owner_signature: Signature;
 }
 
 // 6. DisconnectionActData (для actsge) - АКТ СНЯТИЯ/ОГРАНИЧЕНИЯ ПОДАЧИ ГАЗА
@@ -217,9 +222,9 @@ export interface DisconnectionActData {
   reconnection_basis: string;
   
   // Подписи
-  representative_signature: string;
-  customer_signature: string;
-  reconnection_representative_signature: string;
+  representative_signature: Signature;
+  customer_signature: Signature;
+  reconnection_representative_signature: Signature;
 }
 
 
@@ -319,8 +324,8 @@ const exampleAct: ActData = {
     installed_meter_number: '654321',
     installed_meter_reading: '0',
     installed_seal_number: 'П-002',
-    technician_signature: '',
-    owner_signature: ''
+    technician_signature: { dataUrl: '', format: 'image/png' },
+    owner_signature: { dataUrl: '', format: 'image/png' }
   }
 };
 

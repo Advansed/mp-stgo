@@ -1,6 +1,6 @@
 // hooks/useActBR.ts
 import { useState, useCallback } from 'react';
-import { BatteryReplacementData } from '../../../Store/ActTypes';
+import { BatteryReplacementData, Signature } from '../../../Store/ActTypes';
 import { useToken } from '../../../Store/loginStore';
 import { useToast } from '../../Toast';
 import { post } from '../../../Store/api';
@@ -89,8 +89,12 @@ export const useActBR = (): UseActBRResult => {
       '{{INSTALLED_METER_READING}}': installed_meter_reading || '',
       '{{INSTALLED_SEAL_NUMBER}}': installed_seal_number || '',
 
-      '{{TECHNICIAN_SIGNATURE}}': technician_signature || '',
-      '{{OWNER_SIGNATURE}}': owner_signature || '',
+      '{{TECHNICIAN_SIGNATURE}}': (technician_signature && typeof technician_signature === 'object' && technician_signature.dataUrl) 
+        ? `<img src="${technician_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />` 
+        : '',
+      '{{OWNER_SIGNATURE}}': (owner_signature && typeof owner_signature === 'object' && owner_signature.dataUrl)
+        ? `<img src="${owner_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />`
+        : '',
     };
 
     Object.entries(replacements).forEach(([placeholder, value]) => {
