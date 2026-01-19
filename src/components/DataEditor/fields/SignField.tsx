@@ -1,5 +1,5 @@
 // src/components/DataEditor/fields/ImageField.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from './ImageField.module.css';
 import { IonLoading, IonButton } from "@ionic/react";
 import { useToast } from "../../Toast";
@@ -68,7 +68,8 @@ export const SignField: React.FC<ImageFieldProps> = ({
       // Если dataUrl пустой, но canvas не пустой, очищаем canvas
       signatureRef.current.clear();
     }
-  }, [value, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
   return (
     <>

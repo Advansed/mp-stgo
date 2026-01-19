@@ -1,22 +1,22 @@
-// Acts/ActPlomb/ActPlombForm.tsx
+// Acts/ActMR/ActMRForm.tsx
 import React from 'react';
 import { IonLoading } from '@ionic/react';
-import styles from './ActPlombForm.module.css';
+import styles from './ActMRForm.module.css';
 import { useLoginStore } from '../../../Store/loginStore';
 import { PageData } from '../../DataEditor/types';
 import DataEditor from '../../DataEditor';
-import { ActData, MeterSealingData, Signature } from '../../../Store/ActTypes';
+import { ActData, MeterReplacementData, Signature } from '../../../Store/ActTypes';
 
-interface ActPlombFormProps {
+interface ActMRFormProps {
   act:      ActData | null;
   onClose:  () => void;
   onSave:   (act: ActData) => void;
 }
 
-export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave }) => {
+export const ActMRForm: React.FC<ActMRFormProps> = ({ act, onClose, onSave }) => {
   const user = useLoginStore(state => state.user);
 
-  const getFormData = (actData?: MeterSealingData): PageData => [
+  const getFormData = (actData?: MeterReplacementData): PageData => [
     {
       title: 'Основная информация',
       data: [
@@ -72,6 +72,13 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
       title: 'Объект',
       data: [
         { 
+          label:  'Тип объекта', 
+          type:   'select', 
+          values: ['Жилой дом', 'Гараж', 'Баня', 'Другое'],
+          data: actData?.object_type || '', 
+          validate: true 
+        },
+        { 
           label: 'Адрес', 
           type: 'address', 
           data: actData?.object_address || '', 
@@ -80,30 +87,71 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
       ],
     },
     {
-      title: 'Прибор учета',
+      title: 'Снятый счетчик',
       data: [
         { 
-          label: 'Модель счетчика', 
-          type: 'string', 
-          data: actData?.meter_model || '', 
+          label: 'Дата снятия', 
+          type: 'date', 
+          data: actData?.removal_date || '', 
           validate: true 
         },
         { 
-          label: 'Номер счетчика', 
+          label: 'Модель', 
           type: 'string', 
-          data: actData?.meter_number || '', 
+          data: actData?.removed_meter_model || '', 
+          validate: true 
+        },
+        { 
+          label: 'Номер', 
+          type: 'string', 
+          data: actData?.removed_meter_number || '', 
+          validate: true 
+        },
+        { 
+          label: 'Показания', 
+          type: 'string', 
+          data: actData?.removed_meter_reading || '', 
           validate: true 
         },
         { 
           label: 'Номер пломбы', 
           type: 'string', 
-          data: actData?.seal_number || '', 
+          data: actData?.removed_seal_number || '', 
+          validate: false 
+        },
+      ],
+    },
+    {
+      title: 'Установленный счетчик',
+      data: [
+        { 
+          label: 'Дата установки', 
+          type: 'date', 
+          data: actData?.installation_date || '', 
           validate: true 
         },
         { 
-          label: 'Примечание', 
+          label: 'Модель', 
           type: 'string', 
-          data: actData?.note || '', 
+          data: actData?.installed_meter_model || '', 
+          validate: true 
+        },
+        { 
+          label: 'Номер', 
+          type: 'string', 
+          data: actData?.installed_meter_number || '', 
+          validate: true 
+        },
+        { 
+          label: 'Показания', 
+          type: 'string', 
+          data: actData?.installed_meter_reading || '', 
+          validate: true 
+        },
+        { 
+          label: 'Номер пломбы', 
+          type: 'string', 
+          data: actData?.installed_seal_number || '', 
           validate: false 
         },
       ],
@@ -130,22 +178,29 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
   const handleSave = (data: PageData) => {
     if (!act) return;
 
-    const details: MeterSealingData = {
+    const details: MeterReplacementData = {
+      technician_position:        data[1].data[1].data as string,
       technician_name:            data[1].data[0].data as string,
-      technician_position:       data[1].data[1].data as string,
-      owner_name:                data[2].data[0].data as string,
-      owner_phone:               data[2].data[1].data as string,
-      object_address:            data[3].data[0].data as string,
-      meter_model:               data[4].data[0].data as string,
-      meter_number:              data[4].data[1].data as string,
-      seal_number:               data[4].data[2].data as string,
-      note:                       data[4].data[3].data as string,
-      technician_signature:       (typeof data[5].data[0].data === 'object' && data[5].data[0].data !== null)
-        ? (data[5].data[0].data as Signature)
-        : { dataUrl: (data[5].data[0].data as string) || '', format: 'image/png' },
-      owner_signature:            (typeof data[5].data[1].data === 'object' && data[5].data[1].data !== null)
-        ? (data[5].data[1].data as Signature)
-        : { dataUrl: (data[5].data[1].data as string) || '', format: 'image/png' },
+      owner_name:                 data[2].data[0].data as string,
+      owner_phone:                data[2].data[1].data as string,
+      object_type:                data[3].data[0].data as string,
+      object_address:             data[3].data[1].data as string,
+      removal_date:               data[4].data[0].data as string,
+      removed_meter_model:        data[4].data[1].data as string,
+      removed_meter_number:       data[4].data[2].data as string,
+      removed_meter_reading:      data[4].data[3].data as string,
+      removed_seal_number:        data[4].data[4].data as string,
+      installation_date:          data[5].data[0].data as string,
+      installed_meter_model:      data[5].data[1].data as string,
+      installed_meter_number:     data[5].data[2].data as string,
+      installed_meter_reading:    data[5].data[3].data as string,
+      installed_seal_number:      data[5].data[4].data as string,
+      technician_signature:       (typeof data[6].data[0].data === 'object' && data[6].data[0].data !== null)
+        ? (data[6].data[0].data as Signature)
+        : { dataUrl: (data[6].data[0].data as string) || '', format: 'image/png' },
+      owner_signature:            (typeof data[6].data[1].data === 'object' && data[6].data[1].data !== null)
+        ? (data[6].data[1].data as Signature)
+        : { dataUrl: (data[6].data[1].data as string) || '', format: 'image/png' },
     };
 
     const updatedAct: any = {
@@ -169,10 +224,10 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
     );
   }
 
-  if (act.type !== 'actplomb') {
+  if (act.type !== 'actmr') {
     return (
       <div className={styles.noAct}>
-        <p>Неверный тип акта. Ожидается акт пломбирования (actplomb).</p>
+        <p>Неверный тип акта. Ожидается акт замены газового счетчика (actmr).</p>
       </div>
     );
   }

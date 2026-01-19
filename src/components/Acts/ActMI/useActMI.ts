@@ -1,6 +1,6 @@
-// hooks/useActPlomb.ts
+// hooks/useActMI.ts
 import { useState, useCallback } from 'react';
-import { MeterSealingData, Signature } from '../../../Store/ActTypes';
+import { MeterInstallationData, Signature } from '../../../Store/ActTypes';
 import { useToken } from '../../../Store/loginStore';
 import { useToast } from '../../Toast';
 import { post } from '../../../Store/api';
@@ -8,25 +8,27 @@ import { USD_LOGO_BASE64 } from '../../../constants/logo';
 
 const usdLogo = USD_LOGO_BASE64;
 
-interface UseActPlombResult {
+interface UseActMIResult {
   isLoading: boolean;
-  get_pdf: (html: string, actData: MeterSealingData, actNumber?: string, actDate?: string) => Promise<any>;
+  get_pdf: (html: string, actData: MeterInstallationData, actNumber?: string, actDate?: string) => Promise<any>;
 }
 
-export const useActPlomb = (): UseActPlombResult => {
+export const useActMI = (): UseActMIResult => {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useToken();
   const toast = useToast();
 
-  const fillTemplate = useCallback((actData: MeterSealingData, html: string, actNumber?: string, actDate?: string): string => {
+  const fillTemplate = useCallback((actData: MeterInstallationData, html: string, actNumber?: string, actDate?: string): string => {
     const {
       technician_name,
       owner_name,
+      owner_phone,
       object_address,
+      installation_date,
       meter_model,
       meter_number,
+      meter_reading,
       seal_number,
-      note,
       technician_signature,
       owner_signature,
     } = actData;
@@ -41,20 +43,7 @@ export const useActPlomb = (): UseActPlombResult => {
       return `${day}.${month}.${year}`;
     };
 
-    const getYear = (value?: string): string => {
-      if (!value) return '';
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return '';
-      return String(d.getFullYear());
-    };
-
-    const actDateFormatted = formatDate(actDate);
-    const actYear = getYear(actDate);
-
-    // Парсинг номера акта (формат: "123/2024" или просто "123")
-    const [numberPart, yearPart] = (actNumber || '').split('/');
-    const numberOnly = numberPart || '';
-    const actNumberYear = yearPart || actYear || '';
+    const installationDateFormatted = formatDate(installation_date);
 
     const logoSrc = usdLogo || '';
 
@@ -62,20 +51,18 @@ export const useActPlomb = (): UseActPlombResult => {
 
     const replacements: Record<string, string> = {
       '{{LOGO_SRC}}': logoSrc,
-      '{{NUMBER}}': numberOnly,
-      '{{YEAR}}': actNumberYear,
-      '{{ACT_DATE}}': actDateFormatted,
-      '{{ACT_YEAR}}': actYear,
       '{{TECHNICIAN_NAME}}': technician_name || '',
       '{{OWNER_NAME}}': owner_name || '',
+      '{{OWNER_PHONE}}': owner_phone || '',
       '{{OBJECT_ADDRESS}}':
         typeof object_address === 'string'
           ? object_address
           : (object_address as any)?.address || '',
+      '{{INSTALLATION_DATE}}': installationDateFormatted,
       '{{METER_MODEL}}': meter_model || '',
       '{{METER_NUMBER}}': meter_number || '',
+      '{{METER_READING}}': meter_reading || '',
       '{{SEAL_NUMBER}}': seal_number || '',
-      '{{NOTE}}': note || '',
       '{{TECHNICIAN_SIGNATURE}}': (technician_signature && typeof technician_signature === 'object' && technician_signature.dataUrl) 
         ? `<img src="${technician_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />` 
         : '',
@@ -92,7 +79,7 @@ export const useActPlomb = (): UseActPlombResult => {
     return result;
   }, []);
 
-  const get_pdf = useCallback(async (html: string, actData: MeterSealingData, actNumber?: string, actDate?: string) => {
+  const get_pdf = useCallback(async (html: string, actData: MeterInstallationData, actNumber?: string, actDate?: string) => {
     try {
       setIsLoading(true);
       const template = fillTemplate(actData, html, actNumber, actDate);

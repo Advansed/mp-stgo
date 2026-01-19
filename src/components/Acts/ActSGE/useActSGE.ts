@@ -1,108 +1,26 @@
 // hooks/useActSGE.ts
 import { useState, useCallback } from 'react';
+import { DisconnectionActData, Signature } from '../../../Store/ActTypes';
 import { useToken } from '../../../Store/loginStore';
 import { useToast } from '../../Toast';
 import { post } from '../../../Store/api';
 import { USD_LOGO_BASE64 } from '../../../constants/logo';
 
-const usdLogo = USD_LOGO_BASE64
-
-interface DisconnectionActData {
-  invoice_id?: string;
-  act_number?: string;
-  act_date?: string;
-  personal_account?: string;
-  work_order_number?: string;
-  work_order_date?: string;
-  debt_reason?: string;
-  apartment_number?: string;
-  house_number?: string;
-  building_number?: string;
-  street_name?: string;
-  city_district?: string;
-  customer_name?: string;
-  representative_position?: string;
-  representative_name?: string;
-  disconnection_time_hours?: string;
-  disconnection_time_minutes?: string;
-  equipment_description?: string;
-  equipment_count?: string;
-  disconnection_method?: string;
-  seal_number?: string;
-  reconnection_date?: string;
-  reconnection_representative?: string;
-  reconnection_basis?: string;
-  representative_signature?: string;
-  customer_signature?: string;
-  reconnection_representative_signature?: string;
-  status?: string;
-  document_scan_path?: string;
-}
+const usdLogo = USD_LOGO_BASE64;
 
 interface UseActSGEResult {
-  actData: DisconnectionActData | null;
   isLoading: boolean;
-  loadData: (invoiceId?: string) => Promise<void>;
-  saveData: (data: DisconnectionActData) => Promise<void>;
-  get_pdf: (html: string) => Promise<any>;
+  get_pdf: (html: string, actData: DisconnectionActData, actNumber?: string, actDate?: string) => Promise<any>;
 }
 
-
 export const useActSGE = (): UseActSGEResult => {
-  const [actData, setActData]       = useState<DisconnectionActData | null>(null);
-  const [isLoading, setIsLoading]   = useState(false);
-  const { token }                   = useToken();
-  const toast                       = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { token } = useToken();
+  const toast = useToast();
 
-  const loadData                    = useCallback(async (invoiceId?: string) => {
-    setIsLoading(true);
-    try {
-      const res = await post('mp_get_actsge', { token, invoice_id: invoiceId });
-      if (res.success) {
-        setActData(res.data);
-      } else toast.error(res.message);
-    } catch (e: any) {
-      toast.error("Ошибка получения данных:" + e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token]);
-
-  const saveData                    = useCallback(async (data: DisconnectionActData) => {
-    setIsLoading(true);
-    try {
-      const payload = { ...data, token };
-      const res = await post('mp_set_actsge', payload);
-      console.log('mp_set_actsge', res);
-      if (res.success) {
-        setActData(res.data);
-      } else toast.error(res.message);
-    } catch (e: any) {
-      toast.error('saveData ActSGE error', e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token]);
-
-  const get_pdf                     = async (html: string) => {
-    try {
-      setIsLoading(true);
-      const template = fillTemplate(html);
-      return await post("mp_get_pdf", { template });
-    } catch (e: any) {
-      return { success: false, message: e.message };
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fillTemplate                = (html: string): string => {
-    if (!actData) return '';
-    
-    // Извлекаем данные из actData и форматируем даты
+  const fillTemplate = useCallback((actData: DisconnectionActData, html: string, actNumber?: string, actDate?: string): string => {
     const {
-      act_number,
-      act_date,
+      customer_name,
       personal_account,
       work_order_number,
       work_order_date,
@@ -112,7 +30,6 @@ export const useActSGE = (): UseActSGEResult => {
       building_number,
       street_name,
       city_district,
-      customer_name,
       representative_position,
       representative_name,
       disconnection_time_hours,
@@ -129,7 +46,6 @@ export const useActSGE = (): UseActSGEResult => {
       reconnection_representative_signature,
     } = actData;
 
-    // Функции форматирования дат
     const formatDate = (value?: string | null): string => {
       if (!value) return '';
       const d = new Date(value);
@@ -165,23 +81,25 @@ export const useActSGE = (): UseActSGEResult => {
       return String(d.getFullYear());
     };
 
-    // Форматируем даты
-    const actDay = getDay(act_date);
-    const actMonth = getMonthName(act_date);
-    const actYear = getYear(act_date);
+    const actDay = getDay(actDate);
+    const actMonth = getMonthName(actDate);
+    const actYear = getYear(actDate);
     const workOrderDateFormatted = formatDate(work_order_date);
-    const reconnectionDate = getDay(reconnection_date);
-    const reconnectionMonth = getMonthName(reconnection_date);
-    const reconnectionYear = getYear(reconnection_date);
+    const reconnectionDate = getDay(reconnection_date || null);
+    const reconnectionMonth = getMonthName(reconnection_date || null);
+    const reconnectionYear = getYear(reconnection_date || null);
 
-    // Разбираем номер акта на номер и год
-    const [numberPart, yearPart] = (act_number || '').split('/');
+    // Парсинг номера акта (формат: "123/2024" или просто "123")
+    const [numberPart, yearPart] = (actNumber || '').split('/');
     const numberOnly = numberPart || '';
     const actNumberYear = yearPart || actYear || '';
 
+    const logoSrc = usdLogo || '';
+
     let result = html;
+
     const replacements: Record<string, string> = {
-      '{{LOGO_SRC}}': usdLogo,
+      '{{LOGO_SRC}}': logoSrc,
       '{{NUMBER}}': numberOnly,
       '{{YEAR}}': actNumberYear,
       '{{ACT_DAY}}': actDay,
@@ -210,9 +128,15 @@ export const useActSGE = (): UseActSGEResult => {
       '{{RECONNECTION_YEAR}}': reconnectionYear,
       '{{RECONNECTION_REPRESENTATIVE}}': reconnection_representative || '',
       '{{RECONNECTION_BASIS}}': reconnection_basis || '',
-      '{{REPRESENTATIVE_SIGNATURE}}': representative_signature || '',
-      '{{CUSTOMER_SIGNATURE}}': customer_signature || '',
-      '{{RECONNECTION_REPRESENTATIVE_SIGNATURE}}': reconnection_representative_signature || '',
+      '{{REPRESENTATIVE_SIGNATURE}}': (representative_signature && typeof representative_signature === 'object' && representative_signature.dataUrl) 
+        ? `<img src="${representative_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />` 
+        : '',
+      '{{CUSTOMER_SIGNATURE}}': (customer_signature && typeof customer_signature === 'object' && customer_signature.dataUrl)
+        ? `<img src="${customer_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />`
+        : '',
+      '{{RECONNECTION_REPRESENTATIVE_SIGNATURE}}': (reconnection_representative_signature && typeof reconnection_representative_signature === 'object' && reconnection_representative_signature.dataUrl)
+        ? `<img src="${reconnection_representative_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />`
+        : '',
     };
 
     Object.entries(replacements).forEach(([placeholder, value]) => {
@@ -221,13 +145,23 @@ export const useActSGE = (): UseActSGEResult => {
     });
 
     return result;
-  };
+  }, []);
+
+  const get_pdf = useCallback(async (html: string, actData: DisconnectionActData, actNumber?: string, actDate?: string) => {
+    try {
+      setIsLoading(true);
+      const template = fillTemplate(actData, html, actNumber, actDate);
+      return await post("mp_get_pdf", { template, token });
+    } catch (e: any) {
+      toast.error("Ошибка генерации PDF: " + e.message);
+      return { success: false, message: e.message };
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fillTemplate, token, toast]);
 
   return {
-    actData,
     isLoading,
-    loadData,
-    saveData,
     get_pdf,
   };
 };

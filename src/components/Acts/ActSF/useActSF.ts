@@ -1,76 +1,25 @@
 // hooks/useActSF.ts
-import { useState, useCallback }  from 'react';
-import { SealBreakData }          from '../../../Store/types';
-import { useToken }               from '../../../Store/loginStore';
-import { useToast }               from '../../Toast';
-import { post }                   from '../../../Store/api';
+import { useState, useCallback } from 'react';
+import { SealBreakData, Signature } from '../../../Store/ActTypes';
+import { useToken } from '../../../Store/loginStore';
+import { useToast } from '../../Toast';
+import { post } from '../../../Store/api';
 import { USD_LOGO_BASE64 } from '../../../constants/logo';
 
-const usdLogo = USD_LOGO_BASE64
-
+const usdLogo = USD_LOGO_BASE64;
 
 interface UseActSFResult {
-  actData: SealBreakData | null;
   isLoading: boolean;
-  loadData: (invoiceId?: string) => Promise<void>;
-  saveData: (data: SealBreakData) => Promise<void>;
-  get_pdf: (html: string) => Promise<any>;
+  get_pdf: (html: string, actData: SealBreakData, actNumber?: string, actDate?: string) => Promise<any>;
 }
 
 export const useActSF = (): UseActSFResult => {
-  const [actData, setActData] = useState<SealBreakData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useToken();
   const toast = useToast();
 
-  const loadData = useCallback(async (invoiceId?: string) => {
-    setIsLoading(true);
-    try {
-      const res = await post('mp_get_actsf', { token, invoice_id: invoiceId });
-      if (res.success) {
-        setActData(res.data);
-      } else toast.error(res.message);
-    } catch (e: any) {
-      toast.error("Ошибка получения данных:" + e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token]);
-
-  const saveData = useCallback(async (data: SealBreakData) => {
-    setIsLoading(true);
-    try {
-      const payload = { ...data, token };
-      const res = await post('mp_set_actsf', payload);
-      console.log('mp_set_actsf', res);
-      if (res.success) {
-        setActData(res.data);
-      } else toast.error(res.message);
-    } catch (e: any) {
-      toast.error('saveData ActSF error', e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token]);
-
-  const get_pdf = async (html: string) => {
-    try {
-      setIsLoading(true);
-      const template = fillTemplate(html);
-      return await post("mp_get_pdf", { template });
-    } catch (e: any) {
-      return { success: false, message: e.message };
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fillTemplate = (html: string): string => {
-    if (!actData) return '';
-    
+  const fillTemplate = useCallback((actData: SealBreakData, html: string, actNumber?: string, actDate?: string): string => {
     const {
-      act_number,
-      act_date,
       technician1_name,
       technician2_name,
       owner_name,
@@ -96,35 +45,43 @@ export const useActSF = (): UseActSFResult => {
       owner_signature,
     } = actData;
 
-    const formatDate = (value?: string | null): string => {
+    const formatDate = (value?: string): string => {
       if (!value) return '';
       const d = new Date(value);
       if (Number.isNaN(d.getTime())) return '';
       return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`;
     };
 
-    const getDateParts = (value?: string | null) => {
+    const getDateParts = (value?: string) => {
       if (!value) return { day: '', month: '', year: '' };
       const d = new Date(value);
       if (Number.isNaN(d.getTime())) return { day: '', month: '', year: '' };
+      const months = [
+        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+      ];
       return {
         day: String(d.getDate()).padStart(2, '0'),
-        month: d.toLocaleString('ru-RU', { month: 'long' }),
+        month: months[d.getMonth()],
         year: String(d.getFullYear())
       };
     };
 
-    const actDateParts = getDateParts(act_date);
+    const actDateParts = getDateParts(actDate);
     const breakDateParts = getDateParts(break_date);
     const installDateParts = getDateParts(install_date);
     
-    const [numberPart, yearPart] = (act_number || '').split('/');
+    // Парсинг номера акта (формат: "123/2024" или просто "123")
+    const [numberPart, yearPart] = (actNumber || '').split('/');
     const numberOnly = numberPart || '';
     const actYear = yearPart || actDateParts.year || '';
 
+    const logoSrc = usdLogo || '';
+
     let result = html;
+
     const replacements: Record<string, string> = {
-      '{{LOGO_SRC}}': usdLogo,
+      '{{LOGO_SRC}}': logoSrc,
       '{{NUMBER}}': numberOnly,
       '{{YEAR}}': actYear,
       '{{ACT_DAY}}': actDateParts.day,
@@ -154,9 +111,15 @@ export const useActSF = (): UseActSFResult => {
       '{{INSTALL_METER_MODEL}}': install_meter_model || '',
       '{{INSTALL_METER_NUMBER}}': install_meter_number || '',
       '{{INSTALL_METER_READING}}': install_meter_reading || '',
-      '{{TECHNICIAN1_SIGNATURE}}': technician1_signature || '',
-      '{{TECHNICIAN2_SIGNATURE}}': technician2_signature || '',
-      '{{OWNER_SIGNATURE}}': owner_signature || '',
+      '{{TECHNICIAN1_SIGNATURE}}': (technician1_signature && typeof technician1_signature === 'object' && technician1_signature.dataUrl) 
+        ? `<img src="${technician1_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />` 
+        : '',
+      '{{TECHNICIAN2_SIGNATURE}}': (technician2_signature && typeof technician2_signature === 'object' && technician2_signature.dataUrl)
+        ? `<img src="${technician2_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />`
+        : '',
+      '{{OWNER_SIGNATURE}}': (owner_signature && typeof owner_signature === 'object' && owner_signature.dataUrl)
+        ? `<img src="${owner_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />`
+        : '',
     };
 
     Object.entries(replacements).forEach(([placeholder, value]) => {
@@ -165,13 +128,23 @@ export const useActSF = (): UseActSFResult => {
     });
 
     return result;
-  };
+  }, []);
+
+  const get_pdf = useCallback(async (html: string, actData: SealBreakData, actNumber?: string, actDate?: string) => {
+    try {
+      setIsLoading(true);
+      const template = fillTemplate(actData, html, actNumber, actDate);
+      return await post("mp_get_pdf", { template, token });
+    } catch (e: any) {
+      toast.error("Ошибка генерации PDF: " + e.message);
+      return { success: false, message: e.message };
+    } finally {
+      setIsLoading(false);
+    }
+  }, [fillTemplate, token, toast]);
 
   return {
-    actData,
     isLoading,
-    loadData,
-    saveData,
     get_pdf,
   };
 };

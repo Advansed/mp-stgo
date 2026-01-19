@@ -89,8 +89,33 @@
 .meterActFormContent {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding-bottom: 0.75rem;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Альтернативные классы для совместимости */
+.batteryActForm {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  overflow: hidden;
+}
+
+.batteryActFormCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.batteryActFormContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 /* Превью-режим: секции внутри одной карточки */
@@ -104,13 +129,16 @@
 
 .previewModeFormSection:last-child {
   border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .previewModeSectionTitle {
   margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
   color: #333;
+  font-weight: 600;
 }
 
 /* Компактная сетка полей */
@@ -149,10 +177,26 @@
   align-items: center;
 }
 
+.noAct {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #666;
+}
+
 /* Модальное окно */
+.modal {
+  --width: 100%;
+  --height: 100%;
+}
+
 .modalContent {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
 }
 
 .noPdf {

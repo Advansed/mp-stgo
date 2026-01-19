@@ -45,7 +45,7 @@ const DataEditor: React.FC<DataEditorProps> = ({
   };
 
   const handleForwardNavigation   = () => {
-    console.log("go", navigation.canGoNext)
+
     if (navigation.canGoNext) {
       // Валидация полей текущей страницы
       const currentSection = data[navigation.currentPage];
@@ -54,7 +54,6 @@ const DataEditor: React.FC<DataEditorProps> = ({
       currentSection.data.forEach((field, fIdx) => {
         if (field.validate) {
           const error = validateField(field, navigation.currentPage, fIdx);
-          console.log('validate',error)
           if (error) {
             setError(navigation.currentPage, fIdx, error);
             hasErrors = true;
@@ -106,6 +105,8 @@ const DataEditor: React.FC<DataEditorProps> = ({
       error:          errors[key],
       onChange:       update
     };
+
+    console.log('field', field )
 
     switch (field.type) {
 

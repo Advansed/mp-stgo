@@ -1,6 +1,6 @@
-// hooks/useActPlomb.ts
+// hooks/useActMR.ts
 import { useState, useCallback } from 'react';
-import { MeterSealingData, Signature } from '../../../Store/ActTypes';
+import { MeterReplacementData, Signature } from '../../../Store/ActTypes';
 import { useToken } from '../../../Store/loginStore';
 import { useToast } from '../../Toast';
 import { post } from '../../../Store/api';
@@ -8,25 +8,32 @@ import { USD_LOGO_BASE64 } from '../../../constants/logo';
 
 const usdLogo = USD_LOGO_BASE64;
 
-interface UseActPlombResult {
+interface UseActMRResult {
   isLoading: boolean;
-  get_pdf: (html: string, actData: MeterSealingData, actNumber?: string, actDate?: string) => Promise<any>;
+  get_pdf: (html: string, actData: MeterReplacementData, actNumber?: string, actDate?: string) => Promise<any>;
 }
 
-export const useActPlomb = (): UseActPlombResult => {
+export const useActMR = (): UseActMRResult => {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useToken();
   const toast = useToast();
 
-  const fillTemplate = useCallback((actData: MeterSealingData, html: string, actNumber?: string, actDate?: string): string => {
+  const fillTemplate = useCallback((actData: MeterReplacementData, html: string, actNumber?: string, actDate?: string): string => {
     const {
       technician_name,
       owner_name,
+      object_type,
       object_address,
-      meter_model,
-      meter_number,
-      seal_number,
-      note,
+      removal_date,
+      removed_meter_model,
+      removed_meter_number,
+      removed_meter_reading,
+      removed_seal_number,
+      installation_date,
+      installed_meter_model,
+      installed_meter_number,
+      installed_meter_reading,
+      installed_seal_number,
       technician_signature,
       owner_signature,
     } = actData;
@@ -48,6 +55,12 @@ export const useActPlomb = (): UseActPlombResult => {
       return String(d.getFullYear());
     };
 
+    const removalDateFormatted = formatDate(removal_date);
+    const removalYear = getYear(removal_date);
+
+    const installationDateFormatted = formatDate(installation_date);
+    const installationYear = getYear(installation_date);
+
     const actDateFormatted = formatDate(actDate);
     const actYear = getYear(actDate);
 
@@ -68,14 +81,26 @@ export const useActPlomb = (): UseActPlombResult => {
       '{{ACT_YEAR}}': actYear,
       '{{TECHNICIAN_NAME}}': technician_name || '',
       '{{OWNER_NAME}}': owner_name || '',
+      '{{OBJECT_TYPE}}': object_type || '',
       '{{OBJECT_ADDRESS}}':
         typeof object_address === 'string'
           ? object_address
           : (object_address as any)?.address || '',
-      '{{METER_MODEL}}': meter_model || '',
-      '{{METER_NUMBER}}': meter_number || '',
-      '{{SEAL_NUMBER}}': seal_number || '',
-      '{{NOTE}}': note || '',
+
+      '{{REMOVAL_DATE}}': removalDateFormatted,
+      '{{REMOVAL_YEAR}}': removalYear,
+      '{{REMOVED_METER_MODEL}}': removed_meter_model || '',
+      '{{REMOVED_METER_NUMBER}}': removed_meter_number || '',
+      '{{REMOVED_METER_READING}}': removed_meter_reading || '',
+      '{{REMOVED_SEAL_NUMBER}}': removed_seal_number || '',
+
+      '{{INSTALLATION_DATE}}': installationDateFormatted,
+      '{{INSTALLATION_YEAR}}': installationYear,
+      '{{INSTALLED_METER_MODEL}}': installed_meter_model || '',
+      '{{INSTALLED_METER_NUMBER}}': installed_meter_number || '',
+      '{{INSTALLED_METER_READING}}': installed_meter_reading || '',
+      '{{INSTALLED_SEAL_NUMBER}}': installed_seal_number || '',
+
       '{{TECHNICIAN_SIGNATURE}}': (technician_signature && typeof technician_signature === 'object' && technician_signature.dataUrl) 
         ? `<img src="${technician_signature.dataUrl}" style="max-width: 200px; max-height: 80px;" />` 
         : '',
@@ -92,7 +117,7 @@ export const useActPlomb = (): UseActPlombResult => {
     return result;
   }, []);
 
-  const get_pdf = useCallback(async (html: string, actData: MeterSealingData, actNumber?: string, actDate?: string) => {
+  const get_pdf = useCallback(async (html: string, actData: MeterReplacementData, actNumber?: string, actDate?: string) => {
     try {
       setIsLoading(true);
       const template = fillTemplate(actData, html, actNumber, actDate);

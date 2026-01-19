@@ -1,22 +1,22 @@
-// Acts/ActPlomb/ActPlombForm.tsx
+// Acts/ActMI/ActMIForm.tsx
 import React from 'react';
 import { IonLoading } from '@ionic/react';
-import styles from './ActPlombForm.module.css';
+import styles from './ActMIForm.module.css';
 import { useLoginStore } from '../../../Store/loginStore';
 import { PageData } from '../../DataEditor/types';
 import DataEditor from '../../DataEditor';
-import { ActData, MeterSealingData, Signature } from '../../../Store/ActTypes';
+import { ActData, MeterInstallationData, Signature } from '../../../Store/ActTypes';
 
-interface ActPlombFormProps {
+interface ActMIFormProps {
   act:      ActData | null;
   onClose:  () => void;
   onSave:   (act: ActData) => void;
 }
 
-export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave }) => {
+export const ActMIForm: React.FC<ActMIFormProps> = ({ act, onClose, onSave }) => {
   const user = useLoginStore(state => state.user);
 
-  const getFormData = (actData?: MeterSealingData): PageData => [
+  const getFormData = (actData?: MeterInstallationData): PageData => [
     {
       title: 'Основная информация',
       data: [
@@ -38,30 +38,24 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
       title: 'Исполнитель',
       data: [
           { 
-              label: 'ФИО', 
+              label: 'ФИО техника', 
               type: 'string', 
               data: actData?.technician_name || user?.full_name || '', 
-              validate: true 
-          },
-          { 
-              label: 'Должность', 
-              type: 'string', 
-              data: actData?.technician_position || '', 
               validate: true 
           },
       ],
     },
     {
-      title: 'Владелец',
+      title: 'Абонент',
       data: [
           { 
-              label: 'ФИО владельца', 
+              label: 'ФИО абонента', 
               type: 'string', 
               data: actData?.owner_name || '', 
               validate: true 
           },
           { 
-              label: 'Телефон', 
+              label: 'Телефон абонента', 
               type: 'string', 
               data: actData?.owner_phone || '', 
               validate: true 
@@ -72,7 +66,7 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
       title: 'Объект',
       data: [
         { 
-          label: 'Адрес', 
+          label: 'Адрес объекта', 
           type: 'address', 
           data: actData?.object_address || '', 
           validate: true 
@@ -80,8 +74,14 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
       ],
     },
     {
-      title: 'Прибор учета',
+      title: 'Счетчик',
       data: [
+        { 
+          label: 'Дата установки', 
+          type: 'date', 
+          data: actData?.installation_date || '', 
+          validate: true 
+        },
         { 
           label: 'Модель счетчика', 
           type: 'string', 
@@ -89,9 +89,15 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
           validate: true 
         },
         { 
-          label: 'Номер счетчика', 
+          label: 'Заводской номер', 
           type: 'string', 
           data: actData?.meter_number || '', 
+          validate: true 
+        },
+        { 
+          label: 'Первичные показания', 
+          type: 'string', 
+          data: actData?.meter_reading || '', 
           validate: true 
         },
         { 
@@ -99,12 +105,6 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
           type: 'string', 
           data: actData?.seal_number || '', 
           validate: true 
-        },
-        { 
-          label: 'Примечание', 
-          type: 'string', 
-          data: actData?.note || '', 
-          validate: false 
         },
       ],
     },
@@ -118,7 +118,7 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
           validate: true 
         },
         { 
-          label: 'Подпись владельца', 
+          label: 'Подпись абонента', 
           type: 'sign', 
           data: actData?.owner_signature || { dataUrl : '', format: '' }, 
           validate: true 
@@ -130,16 +130,16 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
   const handleSave = (data: PageData) => {
     if (!act) return;
 
-    const details: MeterSealingData = {
+    const details: MeterInstallationData = {
       technician_name:            data[1].data[0].data as string,
-      technician_position:       data[1].data[1].data as string,
       owner_name:                data[2].data[0].data as string,
       owner_phone:               data[2].data[1].data as string,
       object_address:            data[3].data[0].data as string,
-      meter_model:               data[4].data[0].data as string,
-      meter_number:              data[4].data[1].data as string,
-      seal_number:               data[4].data[2].data as string,
-      note:                       data[4].data[3].data as string,
+      installation_date:         data[4].data[0].data as string,
+      meter_model:               data[4].data[1].data as string,
+      meter_number:              data[4].data[2].data as string,
+      meter_reading:             data[4].data[3].data as string,
+      seal_number:               data[4].data[4].data as string,
       technician_signature:       (typeof data[5].data[0].data === 'object' && data[5].data[0].data !== null)
         ? (data[5].data[0].data as Signature)
         : { dataUrl: (data[5].data[0].data as string) || '', format: 'image/png' },
@@ -169,10 +169,10 @@ export const ActPlombForm: React.FC<ActPlombFormProps> = ({ act, onClose, onSave
     );
   }
 
-  if (act.type !== 'actplomb') {
+  if (act.type !== 'actmi') {
     return (
       <div className={styles.noAct}>
-        <p>Неверный тип акта. Ожидается акт пломбирования (actplomb).</p>
+        <p>Неверный тип акта. Ожидается акт установки газового счетчика (actmi).</p>
       </div>
     );
   }

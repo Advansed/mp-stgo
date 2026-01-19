@@ -22,11 +22,11 @@ import { Invoice }          from '../types';
 import './InvoiceActs.css';
 import { useToast } from '../../Toast';
 import { ActBRForm } from '../../Acts/ActBR/ActBRForm';
-import { ActCCForm } from '../../Acts/ActCC/ActCCForm';
+import { ActMRForm } from '../../Acts/ActMR/ActMRForm';
 import { ActSGEForm } from '../../Acts/ActSGE/ActSGEForm';
 import { ActPlombForm } from '../../Acts/ActPlomb/ActPlombForm';
 import { ActSFForm } from '../../Acts/ActSF/ActSFForm';
-import { ActIGEForm } from '../../Acts/ActIGE/ActIGEForm';
+import { ActMIForm } from '../../Acts/ActMI/ActMIForm';
 
 type ActType = 'list' | 'prescription' | 'act_battery'| 'act_counter_replace' | 'act_sge' | 'act_plomb' | 'act_sf' | 'act_ige';
 
@@ -153,7 +153,7 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
             case 'act_counter_replace':
 
-                return <ActCCForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+                return <ActMRForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
 
             case 'act_sge':
 
@@ -169,7 +169,7 @@ export const InvoiceActs: React.FC<InvoiceActsProps> = ({ invoice }) => {
 
             case 'act_ige':
 
-                return <ActIGEForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
+                return <ActMIForm invoice_id = { invoice.id } onBack = { () => { setCurrentView("list")} }/>;
 
             case 'prescription':
 
